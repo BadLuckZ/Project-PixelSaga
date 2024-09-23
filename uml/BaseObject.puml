@@ -1,0 +1,85 @@
+@startuml
+abstract class objects.BaseObject {
+- Animation animation
+- HitBox hitBox
+- float speed
+- double posX
+- double posY
+- FaceDirection faceDirection
+- String imgString
+- int height
+- int width
+- {static} ArrayList<String> FROM_PLAYER
+- boolean willRemove
+- double distance
+- BaseEntity owner
+- {static} ArrayList<String> GIF_CLASS
+- Group popUp
+- ArrayList<SoundLoader> soundList
++ <<Create>> BaseObject(BaseEntity,double,double,FaceDirection)
++ void move(BaseScene)
+- void checkHitTile(double,BaseScene)
+- void moveObject(double)
+- void checkHitMonster(BaseScene)
+- void checkHitPlayer(BaseScene)
+- void makeDamage(Player,BaseScene)
+- void makeThrowerBombDamage(Player,BaseScene)
+- void applyIceThrowerSlow(Player)
+- void setSlowTimer(Player,int,int)
+- void heal(Player)
+- void activateSuperJump(Player,BaseScene)
+- void moveInsideInteractObject(BaseScene)
+- void moveOutInteractObject(BaseScene)
+- void checkFall(BaseScene)
+- void jump(BaseScene)
+- void createMerchantPopUp(Merchant,BaseScene)
+- void removePopUp(BaseScene)
+- void addClassSymbolPopUp(Symbol,BaseScene)
+- void createClassDetail(Symbol)
+- void addPerkSymbolPopUp(BasePerk,BaseScene)
+- void createPotionPrice(Merchant)
+- void createPerkPrice(BasePerk)
+- void createPerkDetail(BasePerk)
+- boolean isHitEntity(BaseEntity)
+- boolean checkEntityHitbox(double,BaseEntity)
+# void runOneTimeAnimation(int,int,BaseScene,boolean)
++ Animation getAnimation()
++ void setAnimation(Animation)
++ float getSpeed()
++ void setSpeed(float)
++ double getPosX()
++ void setPosX(double)
++ double getPosY()
++ void setPosY(double)
++ FaceDirection getFaceDirection()
++ void setFaceDirection(FaceDirection)
++ String getImgString()
++ void setImgString(String)
++ HitBox getHitBox()
++ void setHitBox(HitBox)
++ int getHeight()
++ void setHeight(int)
++ int getWidth()
++ void setWidth(int)
++ boolean willRemove()
++ void setWillRemove(boolean)
++ double getDistance()
++ void setDistance(double)
++ BaseEntity getOwner()
++ void setOwner(BaseEntity)
++ Group getPopUp()
++ ArrayList<SoundLoader> getSoundList()
++ void setSoundList(ArrayList<SoundLoader>)
++ void setCanIgnoreTile(boolean)
++ void setCanFall(boolean)
++ boolean isDamageDealt()
++ void setDamageDealt(boolean)
++ boolean canInteract()
++ void setCanInteract(boolean)
+}
+
+
+
+
+interfaces.Moveable <|.. objects.BaseObject
+@enduml

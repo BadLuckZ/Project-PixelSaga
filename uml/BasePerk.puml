@@ -1,0 +1,44 @@
+@startuml
+abstract class entities.bases.BasePerk {
+- Tier tier
+- {static} Player player
+- int originalPrice
+- int newPrice
+- int upgradeCost
+- Rarity rarity
+- boolean hasActivated
+- String UI_STRING
+- String ICON_STRING
++ boolean canSell(Player)
++ void sell(Player,BaseScene)
++ void collect(Player)
++ boolean canUpgrade(Player)
++ void upgrade(Player,Tier)
++ {abstract}void setStartValues(Tier)
++ String toString()
++ Tier getTier()
++ void setTier(Tier)
++ int getOriginalPrice()
++ void setOriginalPrice(Rarity)
++ int getNewPrice()
++ void setNewPrice(int)
++ boolean hasActivated()
++ void setHasActivated(boolean)
++ String getIconString()
++ ImageView getImageAtRowColumn(Tier,int)
++ Rarity getRarity()
++ void setRarity(Rarity)
++ {static} Player getPlayer()
++ {static} void setPlayer(Player)
++ int getUpgradeCost()
++ void setUpgradeCost(int)
+}
+
+
+
+
+interfaces.Obtainable <|.. entities.bases.BasePerk
+interfaces.Upgradable <|.. entities.bases.BasePerk
+interfaces.Tradable <|.. entities.bases.BasePerk
+interfaces.Perkable <|.. entities.bases.BasePerk
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+class objects.ShockWave {
++ <<Create>> ShockWave(BaseEntity,double,double,FaceDirection,BaseScene)
+}
+
+class objects.Shroom {
++ <<Create>> Shroom(BaseEntity,double,double,FaceDirection)
+}
+
+class objects.Merchant {
+- int startX
+- int startY
+- boolean isSold
+- int price
++ <<Create>> Merchant(BaseEntity,double,double,FaceDirection)
++ boolean canSell(Player)
++ void sell(Player,BaseScene)
++ int calculateDiscountPrice(Player)
+- void generateNewPrice()
+- void removePotion(Player,BaseScene)
++ boolean isSold()
++ void setSold(boolean)
++ int getPrice()
++ void setPrice(int)
+}
+
+
+class objects.Missile {
++ <<Create>> Missile(BaseEntity,double,double,FaceDirection)
+}
+
+
+
+objects.BaseObject <|-- objects.ShockWave
+objects.BaseObject <|-- objects.Shroom
+interfaces.Tradable <|.. objects.Merchant
+objects.BaseObject <|-- objects.Merchant
+objects.BaseObject <|-- objects.Missile
+@enduml

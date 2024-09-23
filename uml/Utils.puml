@@ -1,0 +1,576 @@
+@startuml
+class utils.HelperMethods {
+- {static} Random random
+- {static} SoundLoader PLAYER_WALK
+- {static} SoundLoader PLAYER_DASH
+- {static} SoundLoader PLAYER_JUMP1
+- {static} SoundLoader PLAYER_JUMP2
+- {static} SoundLoader PLAYER_COLLECT
+- {static} SoundLoader PLAYER_UPGRADE
+- {static} SoundLoader PLAYER_BEING_HIT
+- {static} SoundLoader PLAYER_DODGE
++ {static} SoundLoader PLAYER_BUY_SUCCESS
++ {static} SoundLoader PLAYER_BUY_FAIL
+- {static} SoundLoader PLAYER_BUY_MISS
+- {static} SoundLoader PLAYER_BRUH
+- {static} SoundLoader PLAYER_DEAD
+- {static} SoundLoader MONSTER_BEING_HIT
+- {static} SoundLoader MONSTER_DEAD
+- {static} SoundLoader MONSTER_DODGE
+- {static} SoundLoader BOSS_FIRE
+- {static} SoundLoader BOSS_STOMP_EFFECT
+- {static} SoundLoader DAGGER_COMBO_ATTACK1
+- {static} SoundLoader DAGGER_COMBO_ATTACK2
+- {static} SoundLoader BROADSWORD_ATTACK
+- {static} SoundLoader BROADSWORD_STOMP_EFFECT
+- {static} SoundLoader NORMAL_ARROW_ATTACK
+- {static} SoundLoader CHARGE_ARROW_CHARGE
+- {static} SoundLoader CHARGE_ARROW_ATTACK
+- {static} SoundLoader MISSILE_ATTACK
+- {static} SoundLoader THROWERBOMB_ATTACK
+- {static} SoundLoader KLEE_BOMB
+- {static} SoundLoader NUCLEAR_BOMB
+- {static} SoundLoader GET_HEAL
+- {static} SoundLoader MERCHANT_SELL
+- {static} SoundLoader PERKCHEST_GET
+- {static} SoundLoader BASEREWARD_GET
+- {static} SoundLoader DOOR_OPEN
++ {static} int randomInteger(int,int)
++ {static} float randomFloat(float,float)
++ {static} float randomChance()
++ {static} int randomIntegerUsingPercent(int,int)
++ {static} int finalValuePercent(int,int)
++ {static} float finalValuePercentFloat(float,int)
++ {static} int calculateActionAttack(BaseEntity,BaseEntity,boolean,int)
++ {static} int calculateReflectionAttack(int,BaseMonster)
++ {static} void removeFromUnobtain(Player,BasePerk)
++ {static} ArrayList<BasePerk> generateAllPerks(Player)
++ {static} Button createButton(String)
++ {static} Button createButton(String,Color,Color)
++ {static} Text createTextForInventory(String,int,Color,double,double)
++ {static} Text createText(String,int,Color)
++ {static} Text createText(String,int,Color,FontWeight)
++ {static} boolean canMoveHere(BaseEntity,double,double,double,double,int[][])
+- {static} boolean isSolid(BaseEntity,double,double,int[][])
++ {static} boolean canMoveHereForObject(double,double,double,double,int[][])
+- {static} boolean isSolidForObject(double,double,int[][])
++ {static} void spawnPlayer(Player,int[][])
++ {static} int getTypeOfTile(double,double,int[][])
++ {static} void spawnMonsters(int[][],BaseScene)
+- {static} void spawnMonster(Player,String,BaseScene,double,double)
++ {static} ArrayList<SoundLoader> loadEntitiesSound(BaseEntity)
++ {static} ArrayList<SoundLoader> loadObjectsSound(BaseObject)
++ {static} SoundLoader getSoundFromSoundList(ArrayList<SoundLoader>,String)
++ {static} String randomRoomType()
++ {static} void calculateNewHp(BaseEntity,int,int)
++ {static} int countMonstersNearby(Player,float,float)
++ {static} boolean hasPerk(Player,BasePerk,boolean)
++ {static} ArrayList<BasePerk> createPerkChoices(Player,ArrayList<BasePerk>,int)
+- {static} void addPerkToResult(BasePerk,ArrayList<BasePerk>)
++ {static} ArrayList<String> createDoorChoices(ArrayList<String>,int)
++ {static} void createColumns(GridPane,int[])
++ {static} void createRows(GridPane,int[])
++ {static} ArrayList<SoundLoader> getAllSounds()
++ {static} void addAndDeleteText(BaseEntity,BaseScene,Text)
++ {static} void addAndDeleteStageStatus(BaseScene,Text)
++ {static} void knockBack(BaseEntity,FaceDirection,BaseScene)
++ {static} void immuneAfterAttacked(BaseEntity)
++ {static} void resetAllScenes()
++ {static} void createSymbol(BaseScene,String,double,double,BasePerk)
++ {static} ImageView loadCoinUI()
+}
+
+
+class utils.CanvasDrawer {
+- {static} Image template
+- BaseScene scene
++ <<Create>> CanvasDrawer(BaseScene,double,double)
+- int getValueInThatCoor(int,int)
+- int getXCoor(int,int)
+- int getYCoor(int,int)
++ void drawBackground(GraphicsContext)
+- void drawDoors(ArrayList<String>,int,int)
++ void drawMinimap(GraphicsContext)
++ void drawEntities(GraphicsContext)
+- void drawDoorsMinimap(GraphicsContext)
+- void drawPlayerMinimap(GraphicsContext)
+- void drawAllMonstersMinimap(GraphicsContext)
+}
+
+
+class utils.LevelData {
++ {static} int NUMBER_OF_FIGHT_ROOM_BEFORE_MARKET
++ {static} int[][] classSelectionSceneData
++ {static} int[][] firstFightSceneData
++ {static} int[][] secondFightSceneData
++ {static} int[][] thirdFightSceneData
++ {static} int[][] forthFightSceneData
++ {static} int[][] fifthFightSceneData
++ {static} int[][] marketSceneData
++ {static} int[][] BossSceneData
++ {static} ArrayList<int[][]> getAllFightScene()
+}
+
+
+class utils.ObjectStatus {
++ {static} int NOT_MOVE
++ {static} int NORMAL_ARROW_WIDTH
++ {static} int NORMAL_ARROW_HEIGHT
++ {static} int NORMAL_ARROW_SPEED
++ {static} int CHARGE_ARROW_WIDTH
++ {static} int CHARGE_ARROW_HEIGHT
++ {static} int CHARGE_ARROW_SPEED
++ {static} int MISSILE_WIDTH
++ {static} int MISSILE_HEIGHT
++ {static} int MISSILE_SPEED
++ {static} int HP_DROP_LARGE_WIDTH
++ {static} int HP_DROP_LARGE_HEIGHT
++ {static} float HP_DROP_LARGE_HEAL
++ {static} int HP_DROP_SMALL_WIDTH
++ {static} int HP_DROP_SMALL_HEIGHT
++ {static} float HP_DROP_SMALL_HEAL
++ {static} int SYMBOL_WIDTH
++ {static} int SYMBOL_HEIGHT
++ {static} int PERK_SYMBOL_WIDTH
++ {static} int PERK_SYMBOL_HEIGHT
++ {static} int COIN_REWARD_WIDTH
++ {static} int COIN_REWARD_HEIGHT
++ {static} int COIN_REWARD
++ {static} int HP_REWARD_WIDTH
++ {static} int HP_REWARD_HEIGHT
++ {static} int HP_REWARD_MAX_HP_INCREASE
++ {static} int HP_REWARD_HEAL
++ {static} int PERK_CHEST_REWARD_WIDTH
++ {static} int PERK_CHEST_REWARD_HEIGHT
++ {static} int DOOR_WIDTH
++ {static} int DOOR_HEIGHT
++ {static} int KLEE_BOMB_WIDTH
++ {static} int KLEE_BOMB_HEIGHT
++ {static} int KLEE_BOMB_HITBOX_X_OFFSET
++ {static} int KLEE_BOMB_HITBOX_Y_OFFSET
++ {static} int KLEE_BOMB_HITBOX_WIDTH
++ {static} int KLEE_BOMB_HITBOX_HEIGHT
++ {static} int BOMB_FRAMES
++ {static} int KLEE_BOMB_FRAMES_PER_SECOND
++ {static} int NUCLEAR_BOMB_WIDTH
++ {static} int NUCLEAR_BOMB_HEIGHT
++ {static} int NUCLEAR_BOMB_HITBOX_X_OFFSET
++ {static} int NUCLEAR_BOMB_HITBOX_Y_OFFSET
++ {static} int NUCLEAR_BOMB_HITBOX_WIDTH
++ {static} int NUCLEAR_BOMB_HITBOX_HEIGHT
++ {static} int NUCLEAR_BOMB_FRAMES_PER_SECOND
++ {static} int THROWER_BOMB_WIDTH
++ {static} int THROWER_BOMB_HEIGHT
++ {static} int THROWER_BOMB_ACTIVATE_WIDTH
++ {static} int THROWER_BOMB_ACTIVATE_HEIGHT
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_X_OFFSET
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_Y_OFFSET
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_WIDTH
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_HEIGHT
++ {static} int THROWER_BOMB_ACTIVATE_FRAMES
++ {static} int THROWER_BOMB_ACTIVATE_FRAMES_PER_SECOND
++ {static} int THROWER_ICE_BOMB_ACTIVATE_WIDTH
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HEIGHT
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_X_OFFSET
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_Y_OFFSET
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_WIDTH
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_HEIGHT
++ {static} int THROWER_ICE_BOMB_ACTIVATE_FRAMES
++ {static} int THROWER_ICE_BOMB_ACTIVATE_FRAMES_PER_SECOND
++ {static} int STOMP_EFFECT_WIDTH
++ {static} int STOMP_EFFECT_HEIGHT
++ {static} int STOMP_EFFECT_HITBOX_X_OFFSET
++ {static} int STOMP_EFFECT_HITBOX_Y_OFFSET
++ {static} int STOMP_EFFECT_HITBOX_WIDTH
++ {static} int STOMP_EFFECT_HITBOX_HEIGHT
++ {static} int STOMP_EFFECT_FRAMES
++ {static} int STOMP_EFFECT_FRAMES_PER_SECOND
++ {static} int SHOCK_WAVE_WIDTH
++ {static} int SHOCK_WAVE_HEIGHT
++ {static} int SHOCK_WAVE_HITBOX_X_OFFSET
++ {static} int SHOCK_WAVE_HITBOX_Y_OFFSET
++ {static} int SHOCK_WAVE_HITBOX_WIDTH
++ {static} int SHOCK_WAVE_HITBOX_HEIGHT
++ {static} int SHOCK_WAVE_FRAMES
++ {static} int SHOCK_WAVE_FRAMES_PER_SECOND
++ {static} int SHOCK_WAVE_EXTRA_DAMAGE
++ {static} int FIRE_WIDTH
++ {static} int FIRE_HEIGHT
++ {static} int FIRE_HITBOX_X_OFFSET
++ {static} int FIRE_HITBOX_Y_OFFSET
++ {static} int FIRE_HITBOX_WIDTH
++ {static} int FIRE_HITBOX_HEIGHT
++ {static} int FIRE_FRAMES
++ {static} int FIRE_FRAMES_PER_SECOND
++ {static} int FIRE_EXTRA_DAMAGE
++ {static} int FIRE_TIME
++ {static} int VENDING_MACHINE_WIDTH
++ {static} int VENDING_MACHINE_HEIGHT
++ {static} int VENDING_MACHINE_FRAMES
++ {static} int VENDING_MACHINE_FRAMES_PER_SECOND
++ {static} int SHROOM_WIDTH
++ {static} int SHROOM_HEIGHT
++ {static} int SHROOM_FRAMES
++ {static} int SHROOM_FRAMES_PER_SECOND
++ {static} int MERCHANT_WIDTH
++ {static} int MERCHANT_HEIGHT
++ {static} int MERCHANT_HEAL_PERCENT
++ {static} int MIN_POTION_PRICE
++ {static} int MAX_POTION_PRICE
++ {static} ArrayList<Integer> BLACK_SMITH_WIDTH
++ {static} ArrayList<Integer> BLACK_SMITH_HEIGHT
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_X_OFFSET
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_Y_OFFSET
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_WIDTH
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_HEIGHT
++ {static} ArrayList<Integer> BLACK_SMITH_FRAMES
++ {static} ArrayList<Integer> BLACK_SMITH_FRAMES_PER_SECOND
++ {static} ArrayList<Integer> BLACK_SMITH_PAUSE_TIME
+}
+
+class utils.MonsterStatus {
++ {static} float SPAWN_TIME
++ {static} int MIN_WALKTIME
++ {static} int MAX_WALKTIME
++ {static} int MONSTER_DROP_VARIATION
++ {static} float TURNING_DELAY
++ {static} float KLEE_TURNING_DELAY
++ {static} float LOW_MOVEMENT_SPEED
++ {static} float MEDIUM_MOVEMENT_SPEED
++ {static} float HIGH_MOVEMENT_SPEED
++ {static} int LOW_EVADE_RATE
++ {static} int MEDIUM_EVADE_RATE
++ {static} float SHORT_VISION
++ {static} float MEDIUM_VISION
++ {static} float CLOSED_RANGE
++ {static} float MID_RANGE
++ {static} float LONG_RANGE
++ {static} float GIGEE_DROP_RATE
++ {static} float BOSS_DROP_RATE
++ {static} int COIN_DROP_GIGEE
++ {static} int COIN_DROP_BOSS
++ {static} int LOW_KNOCKBACK_CHANCE
++ {static} int HIGH_KNOCKBACK_CHANCE
++ {static} float LOW_KNOCKBACK_DISTANCE
++ {static} float MEDIUM_KNOCKBACK_DISTANCE
++ {static} float HIGH_KNOCKBACK_DISTANCE
++ {static} int PEASANT_HP
++ {static} int PEASANT_ATK
++ {static} int PEASANT_DEF
++ {static} float PEASANT_ATK_DELAY
++ {static} int KLEE_HP
++ {static} int KLEE_ATK
++ {static} int KLEE_DEF
++ {static} float KLEE_ATK_DELAY
++ {static} int ARCHER_HP
++ {static} int ARCHER_ATK
++ {static} int ARCHER_DEF
++ {static} float ARCHER_ATK_DELAY
++ {static} int THROWER_HP
++ {static} int THROWER_ATK
++ {static} int THROWER_DEF
++ {static} float THROWER_ATK_DELAY
++ {static} int ICE_THROWER_ATK
++ {static} int BIGBOY_HP
++ {static} int BIGBOY_ATK
++ {static} int BIGBOY_DEF
++ {static} float BIGBOY_SKILL_ONE_COOLDOWN
++ {static} float BIGBOY_COOLDOWN_AFTER_SKILL_ONE
++ {static} float BIGBOY_SKILL_TWO_COOLDOWN
++ {static} float BIGBOY_COOLDOWN_AFTER_SKILL_TWO
++ {static} float BIGBOY_SKILL_THREE_COOLDOWN
++ {static} float BIGBOY_COOLDOWN_AFTER_SKILL_THREE
++ {static} float BIGBOY_SKILL_ONE_ATTACK_RANGE
++ {static} float BIGBOY_SKILL_TWO_ATTACK_RANGE
++ {static} float BIGBOY_SKILL_TWO_JUMP_TIME
++ {static} float BIGBOY_SKILL_TWO_MAX_JUMP_DISTANCE
++ {static} int BIGBOY_SKILL_TWO_NUMBERS_OF_SHOCKWAVE
++ {static} float BIGBOY_SKILL_THREE_ATTACK_RANGE
++ {static} float BIGBOY_SKILL_THREEE_MIN_ATTACK_RANGE
++ {static} float BIGBOY_NUCLEAR_TIME
+}
+
+class utils.AnimationStatus {
++ {static} double SPAWN_X
++ {static} double SPAWN_Y
++ {static} int START_X
++ {static} int START_Y
++ {static} int DEFAULT_ANIMATION_WIDTH
++ {static} int DEFAULT_ANIMATION_HEIGHT
++ {static} int GAP_WIDTH
++ {static} int GAP_HEIGHT
++ {static} int DEFAULT_HITBOX_WIDTH
++ {static} int DEFAULT_HITBOX_HEIGHT
++ {static} int DEFAULT_HITBOX_X_OFFSET
++ {static} int DEFAULT_HITBOX_Y_OFFSET
++ {static} float SCALE
++ {static} int PIXEL_PER_TILE
++ {static} int MOVE_FRAME
++ {static} int ANIMATION_FRAME
++ {static} float MOVE_PER_FRAME
++ {static} float JUMP_HEIGHT
++ {static} float GRAVITY
++ {static} float GRAVITY_FOR_OBJECT
++ {static} double JUMP_VELOCITY
++ {static} int JUMP_FRAME
++ {static} ArrayList<String> DASH_AND_JUMP_WHEN_DEATH_MONSTER
++ {static} int ANONYMOUS_STAND_STILL_FRAMES
++ {static} int ANONYMOUS_WALK_FRAMES
++ {static} int BOW_STAND_STILL_FRAMES
++ {static} int BOW_WALK_FRAMES
++ {static} int BOW_NORMAL_ATTACK_FRAMES
++ {static} int BOW_SPECIAL_ATTACK_FRAMES
++ {static} int BOW_DASH_FRAME
++ {static} int BOW_DEAD_FRAMES
++ {static} int BOW_SPECIAL_ATTACK_CHARGE_TIME
++ {static} float BOW_SPECIAL_ATTACK_COOLDOWN
++ {static} int BOW_SPECIAL_ATTACK_DAMAGE
++ {static} int BOW_SPECIAL_ATTACK_DAMAGE_INCREASE_PER_FRAME
++ {static} int BOW_SPECIAL_ATTACK_MAX_DAMAGE_INCREASE
++ {static} int BROADSWORD_STAND_STILL_FRAMES
++ {static} int BROADSWORD_WALK_FRAMES
++ {static} int BROADSWORD_NORMAL_ATTACK_FRAMES
++ {static} int BROADSWORD_SPECIAL_ATTACK_FRAMES
++ {static} int BROADSWORD_DASH_FRAMES
++ {static} int BROADSWORD_DEAD_FRAMES
++ {static} int BROADSWORD_ANIMATION_WIDTH
++ {static} int BROADSWORD_ANIMATION_HEIGHT
++ {static} int BROADSWORD_HITBOX_WIDTH
++ {static} int BROADSWORD_HITBOX_HEIGHT
++ {static} int BROADSWORD_HITBOX_X_OFFSET
++ {static} int BROADSWORD_HITBOX_Y_OFFSET
++ {static} int BROADSWORD_SPECIAL_ATTACK_JUMP_HEIGHT
++ {static} float BROADSWORD_SPECIAL_ATTACK_COOLDOWN
++ {static} int BROADSWORD_SPECIAL_ATTACK_DAMAGE
++ {static} int DAGGER_STAND_STILL_FRAMES
++ {static} int DAGGER_WALK_FRAMES
++ {static} int DAGGER_NORMAL_ATTACK_FRAMES
++ {static} int DAGGER_SPECIAL_ATTACK_FRAMES
++ {static} int DAGGER_DASH_FRAMES
++ {static} int DAGGER_DEAD_FRAMES
++ {static} float DAGGER_SPECIAL_ATTACK_WARP_DISTANCE
++ {static} float DAGGER_SPECIAL_ATTACK_COOLDOWN
++ {static} int DAGGER_SPECIAL_ATTACK_DAMAGE
++ {static} int DAGGER_SPECIAL_ATTACK_CRIT_CHANCE
++ {static} float DAGGER_SPECIAL_ATTACK_CRIT_BUFF_DURATION
++ {static} int SPAWN_FRAMES
++ {static} int PEASANTGIGEE_STAND_STILL_FRAMES
++ {static} int PEASANTGIGEE_WALK_FRAMES
++ {static} int PEASANTGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int PEASANTGIGEE_DEAD_FRAMES
++ {static} int KLEEGIGEE_STAND_STILL_FRAMES
++ {static} int KLEEGIGEE_WALK_FRAMES
++ {static} int KLEEGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int KLEEGIGEE_DEAD_FRAMES
++ {static} int KLEEGIGEE_SPEED_INCREASE
++ {static} float KLEEGIGEE_BOMB_TIME
++ {static} int ARCHERGIGEE_STAND_STILL_FRAMES
++ {static} int ARCHERGIGEE_WALK_FRAMES
++ {static} int ARCHERGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int ARCHERGIGEE_DEAD_FRAMES
++ {static} int THROWERGIGEE_STAND_STILL_FRAMES
++ {static} int THROWERGIGEE_WALK_FRAMES
++ {static} int THROWERGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int THROWERGIGEE_DEAD_FRAMES
++ {static} int THROWERGIGEE_HITBOX_WIDTH
++ {static} int THROWERGIGEE_HITBOX_X_OFFSET
++ {static} float THROWERGIGEE_THROW_TIME
++ {static} int ICETHROWERGIGEE_STAND_STILL_FRAMES
++ {static} int ICETHROWERGIGEE_WALK_FRAMES
++ {static} int ICETHROWERGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int ICETHROWERGIGEE_DEAD_FRAMES
++ {static} float ICETHROWERGIGEE_THROW_TIME
++ {static} int ICETHROWERGIGEE_SLOW_AMOUNT
++ {static} int ICETHROWERGIGEE_MAX_SLOW_AMOUNT
++ {static} int ICETHROWERGIGEE_SLOW_DURATION
++ {static} int BIGBOY_STAND_STILL_FRAMES
++ {static} int BIGBOY_WALK_FRAMES
++ {static} int BIGBOY_SKILL_ONE_FRAMES
++ {static} ArrayList<Integer> BIGBOY_SKILL_ONE_FRAMES_HOLD
++ {static} float BIGBOY_SKILL_ONE_ANIMATION_SPEED
++ {static} int BIGBOY_SKILL_TWO_FRAMES
++ {static} ArrayList<Integer> BIGBOY_SKILL_TWO_FRAMES_HOLD
++ {static} float BIGBOY_SKILL_TWO_ANIMATION_SPEED
++ {static} int BIGBOY_SKILL_THREE_STAND_FRAMES
++ {static} int BIGBOY_SKILL_THREE_WALK_FRAMES
++ {static} int BIGBOY_DEAD_FRAMES
++ {static} int BIGBOY_ANIMATION_WIDTH
++ {static} int BIGBOY_ANIMATION_HEIGHT
++ {static} int BIGBOY_HITBOX_WIDTH
++ {static} int BIGBOY_HITBOX_HEIGHT
++ {static} int BIGBOY_HITBOX_X_OFFSET
++ {static} int BIGBOY_HITBOX_Y_OFFSET
+}
+
+class utils.GameConstants {
++ {static} int gameWidth
++ {static} int gameHeight
++ {static} int uiOffset
++ {static} int healthWidth
++ {static} int healthHeight
++ {static} int healthUIWidth
++ {static} int healthUIHeight
++ {static} double scaleForUI
++ {static} double edgeRightOfHealthBar
++ {static} double edgeTopOfHealthBar
++ {static} ArrayList<String> ROOM_TYPES
++ {static} double borderL
++ {static} double borderR
++ {static} SoundLoader START_SCENE_SONG
++ {static} SoundLoader CLASS_SELECTION_SCENE_SONG
++ {static} SoundLoader FIGHT_SCENE_SONG1
++ {static} SoundLoader FIGHT_SCENE_SONG2
++ {static} SoundLoader FIGHT_SCENE_SONG3
++ {static} SoundLoader FIGHT_SCENE_SONG4
++ {static} SoundLoader FIGHT_SCENE_SONG5
++ {static} SoundLoader FIGHT_SCENE_SONG6
++ {static} SoundLoader MARKET_SCENE_SONG
++ {static} SoundLoader BOSS_SCENE_SONG
++ {static} SoundLoader INVENTORY
++ {static} ArrayList<Integer> passableTile
++ {static} ArrayList<Integer> airTile
++ {static} ArrayList<Integer> spawnMonsterTile
++ {static} Font thaleahFatFont
++ {static} Font thaleahFatFontButton
++ {static} Color GREEN_FOR_UI
++ {static} double soundVolume
++ {static} void setGameWidth(int)
++ {static} void setGameHeight(int)
++ {static} void stopAllBackgroundSongs()
+}
+
+
+class utils.SoundLoader {
+- String name
+- MediaPlayer mediaPlayer
+- AudioClip audioClip
+- {static} ArrayList<String> BACKGROUNDS
++ boolean isPlay
++ <<Create>> SoundLoader(String,String)
++ void play()
++ void stop()
++ String getName()
++ MediaPlayer getMediaPlayer()
+}
+
+
+class utils.PlayerStatus {
++ {static} int START_COINS
++ {static} int MAX_PERK_OBTAIN
++ {static} int LOW_HP
++ {static} int HIGH_HP
++ {static} int LOW_ATK
++ {static} int HIGH_ATK
++ {static} int LOW_DEF
++ {static} int HIGH_DEF
++ {static} float LOW_MOVEMENT_SPEED
++ {static} float MEDIUM_MOVEMENT_SPEED
++ {static} float HIGH_MOVEMENT_SPEED
++ {static} float DAGGER_NORMAL_ATTACK_SPEED_MULTIPLIER
++ {static} float DAGGER_SPECIAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BOW_NORMAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BOW_SPECIAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BROADSWORD_NORMAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BROADSWORD_SPECIAL_ATTACK_SPEED_MULTIPLIER
++ {static} int LOW_EVADE_RATE
++ {static} int HIGH_EVADE_RATE
++ {static} int LOW_CRIT_RATE
++ {static} int HIGH_CRIT_RATE
++ {static} int LOW_CRIT_DAMAGE
++ {static} int HIGH_CRIT_DAMAGE
++ {static} int NORMAL_MAX_DASH
++ {static} int LOW_MAX_DASH
++ {static} float DEFAULT_DASH_DISTANCE
++ {static} int DEFAULT_DASH_TIME
++ {static} float DASH_COOLDOWN
++ {static} float TIME_CAN_SECOND_ATTACK
++ {static} float PLAYER_DAMAGE_COOLDOWN
+}
+
+class utils.PerkStatus {
++ {static} float PRICE_UPGRADE_PERCENT
++ {static} int PRICE_VARIATION
++ {static} int COMMON_PRICE
++ {static} int UNCOMMON_PRICE
++ {static} int RARE_PRICE
++ {static} float BERSERK_1_CRITERIA
++ {static} float BERSERK_2_1_CRITERIA
++ {static} float BERSERK_2_2_CRITERIA
++ {static} int BERSERK_1_ADDATK
++ {static} int BERSERK_2_1_ADDATK
++ {static} int BERSERK_2_2_ADDATK
++ {static} float DISCOUNT_NORMAL_FAILCHANCE
++ {static} float DISCOUNT_2_2_FAILCHANCE
++ {static} int DISCOUNT_1_DISCOUNT
++ {static} int DISCOUNT_2_1_DISCOUNT
++ {static} int DISCOUNT_2_2_DISCOUNT
++ {static} float EXTROVERT_TILES_X
++ {static} float EXTROVERT_TILES_Y
++ {static} int EXTROVERT_CRITERIA
++ {static} int EXTROVERT_1_ADDATKPERMONSTER
++ {static} int EXTROVERT_2_1_ADDATKPERMONSTER
++ {static} int EXTROVERT_2_2_ADDATKPERMONSTER
++ {static} int EXTROVERT_2_2_MINUSATKEXTRA
++ {static} int FATAL_1_ADDCRITDAMAGE
++ {static} int FATAL_2_1_ADDCRITDAMAGE
++ {static} int FATAL_2_2_ADDCRITDAMAGE
++ {static} int FATAL_2_2_MINUSCRITRATE
++ {static} int FORTIFY_1_ADDDAMAGEDECREASE
++ {static} int FORTIFY_2_1_ADDDAMAGEDECREASE
++ {static} int FORTIFY_2_2_ADDDAMAGEDECREASE
++ {static} int FORTIFY2_2_ADDATKDELAY
++ {static} float INTROVERT_TILES_X
++ {static} float INTROVERT_TILES_Y
++ {static} int INTROVERT_1_BASEADDATK
++ {static} int INTROVERT_1_MINUSADDATKPERMONSTER
++ {static} int INTROVERT_2_1_BASEADDATK
++ {static} int INTROVERT_2_1_MINUSADDATKPERMONSTER
++ {static} int INTROVERT_2_2_BASEADDATK
++ {static} int INTROVERT_2_2_MINUSADDATKPERMONSTER
++ {static} int JUKE_1_ADDEVADERATE
++ {static} int JUKE_2_1_ADDEVADERATE
++ {static} int JUKE_2_2_ADDEVADERATE
++ {static} int JUKE_2_2_MINUSDAMAGEDECREASE
++ {static} float LUCKYMAN_NORMAL_TIERCHANCE
++ {static} float LUCKYMAN_2_1_TIERCHANCE
++ {static} float LUCKYMAN_2_2_DROPCHANCE
++ {static} float PERFECTION_1_CRITERIA
++ {static} float PERFECTION_2_1_CRITERIA
++ {static} float PERFECTION_2_2_CRITERIA
++ {static} int PERFECTION_1_ADDATK
++ {static} int PERFECTION_2_1_ADDATK
++ {static} int PERFECTION_2_2_ADDATK
++ {static} int PRECISION_1_ADDCRITRATE
++ {static} int PRECISION_2_1_ADDCRITRATE
++ {static} int PRECISION_2_2_ADDCRITRATE
++ {static} int PRECISION_2_2_MINUSCRITDAMAGE
++ {static} int RAPID_NORMAL_ADDATKSPEED
++ {static} int RAPID_2_1_ADDATKSPEED
++ {static} int RAPID_2_2_ADDMOVEMENTSPEED
++ {static} int REINFORCED_1_ADDDEF
++ {static} int REINFORCED_2_1_ADDDEF
++ {static} int REINFORCED_2_2_ADDDEF
++ {static} int REINFORCED_2_2_MINUSMOVEMENTSPEED
++ {static} float THORN_NORMAL_REFLECTCHANCE
++ {static} float THORN_2_1_REFLECTCHANCE
++ {static} int THORN_2_2_SLOWTIME
++ {static} int THORN_2_2_SLOW
++ {static} float TREASURE_NORMAL_REWARDCHANCE
++ {static} float TREASURE_2_1_REWARDCHANCE
++ {static} float TREASURE_2_2_REWARDMULTIPLIER
++ {static} int UNDEAD_NORMAL_ACTIVATION
++ {static} int UNDEAD_2_1_ACTIVATION
++ {static} int UNDEAD_NORMAL_COOLDOWN
++ {static} int UNDEAD_2_2_COOLDOWN
++ {static} int UNDEAD_2_1_ADDATK
++ {static} int UNDEAD_2_1_ADDATKSPEED
++ {static} float VAMP_NORMAL_DRAINCHANCE
++ {static} float VAMP_2_2_DRAINCHANCE
++ {static} float VAMP_NORMAL_DRAINPERHIT
++ {static} float VAMP_2_1_DRAINPERHIT
+}
+
+
+
+javafx.scene.canvas.Canvas <|-- utils.CanvasDrawer
+@enduml

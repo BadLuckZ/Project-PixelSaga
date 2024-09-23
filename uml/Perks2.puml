@@ -1,0 +1,45 @@
+@startuml
+class entities.player.perks.IntrovertPerk {
+- {static} float IN_RANGE_TILES_X
+- {static} float IN_RANGE_TILES_Y
+- {static} int monsterCount
+- {static} int latestValue
++ <<Create>> IntrovertPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+class entities.player.perks.JukeMasterPerk {
++ <<Create>> JukeMasterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.FortifyPerk {
++ <<Create>> FortifyPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.LuckyManPerk {
++ <<Create>> LuckyManPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+
+entities.bases.BasePerk <|-- entities.player.perks.IntrovertPerk
+entities.bases.BasePerk <|-- entities.player.perks.JukeMasterPerk
+entities.bases.BasePerk <|-- entities.player.perks.FortifyPerk
+entities.bases.BasePerk <|-- entities.player.perks.LuckyManPerk
+@enduml
