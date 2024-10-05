@@ -508,19 +508,25 @@ public class HelperMethods {
         List<BasePerk> rarePerks = toRandom.stream().filter(basePerk -> basePerk.getRarity() == RARE).collect(Collectors.toList());
         while (result.size() < number) {
             int randomIndex;
-            BasePerk selectedPerk;
+            BasePerk selectedPerk = null;
             float randomValue = randomChance();
             if (randomValue < 0.5f) {
-                randomIndex = randomInteger(0, commonPerks.size() - 1);
-                selectedPerk = commonPerks.get(randomIndex);
+                if (commonPerks.size() > 0) {
+                    randomIndex = randomInteger(0, commonPerks.size() - 1);
+                    selectedPerk = commonPerks.get(randomIndex);
+                }
             } else if (randomValue < 0.85f) {
-                randomIndex = randomInteger(0, uncommonPerks.size() - 1);
-                selectedPerk = uncommonPerks.get(randomIndex);
+                if (uncommonPerks.size() > 0) {
+                    randomIndex = randomInteger(0, uncommonPerks.size() - 1);
+                    selectedPerk = uncommonPerks.get(randomIndex);
+                }
             } else {
-                randomIndex = randomInteger(0, rarePerks.size() - 1);
-                selectedPerk = rarePerks.get(randomIndex);
+                if (rarePerks.size() > 0) {
+                    randomIndex = randomInteger(0, rarePerks.size() - 1);
+                    selectedPerk = rarePerks.get(randomIndex);
+                }
             }
-            if (hasPerk(player, new LuckyManPerk(player, TIER1), false)) {
+            if (selectedPerk != null && hasPerk(player, new LuckyManPerk(player, TIER1), false)) {
                 float chance = randomChance();
                 if ((hasPerk(player, new LuckyManPerk(player, TIER2_1), true) && chance < LUCKYMAN_2_1_TIERCHANCE) ||
                         (hasPerk(player, new LuckyManPerk(player, TIER2_1), false) && chance < LUCKYMAN_NORMAL_TIERCHANCE)) {
@@ -529,7 +535,9 @@ public class HelperMethods {
                     selectedPerk.setTier(randomTier);
                 }
             }
-            addPerkToResult(selectedPerk, result);
+            if (selectedPerk != null) {
+                addPerkToResult(selectedPerk, result);
+            }
         }
         return result;
     }
