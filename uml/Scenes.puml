@@ -1,0 +1,80 @@
+@startuml
+class scenes.FightScene {
+- {static} FightScene instance
+- {static} int numberOfFightScene
+- {static} SoundLoader fightSceneSong
+- String roomType
++ <<Create>> FightScene(Stage,Player,String)
+- SoundLoader getRandomFightSceneSong()
++ {static} FightScene getFightScene(Stage,Player,String)
++ {static} void resetFightScene()
++ String getRoomType()
++ void setRoomType(String)
++ {static} int getNumberOfFightScene()
++ {static} void setNumberOfFightScene(int)
++ {static} void setFightSceneSong(SoundLoader)
+}
+
+
+class scenes.OptionScene {
+- {static} OptionScene instances
+- {static} Slider soundSlider
++ <<Create>> OptionScene(Stage)
++ {static} OptionScene getOptionScene(Stage)
+}
+
+
+class scenes.MarketScene {
+- {static} MarketScene instance
++ <<Create>> MarketScene(Stage,Player)
+- void createAllPerkSymbols(Player)
+- void createMerchant()
+- void createBlackSmith()
++ {static} MarketScene getMarketScene(Stage,Player)
++ {static} void resetMarketScene()
+}
+
+
+class scenes.DeathScene {
+- {static} DeathScene instance
++ <<Create>> DeathScene(Stage)
++ {static} DeathScene getDeathScene(Stage)
+}
+
+
+class scenes.StartScene {
+- {static} StartScene instance
++ <<Create>> StartScene(Stage)
++ {static} StartScene getStartScene(Stage)
++ {static} void resetStartScene()
+}
+
+
+class scenes.BossScene {
+- {static} BossScene instance
++ <<Create>> BossScene(Stage,Player)
++ {static} BossScene getBossScene(Stage,Player)
++ {static} void resetBossScene()
+}
+
+
+class scenes.ClassSelectionScene {
+- {static} ClassSelectionScene instance
++ <<Create>> ClassSelectionScene(Stage)
+- void createAllClassSymbols()
+- void createVendingMachine()
++ {static} ClassSelectionScene getClassSelectionScene(Stage)
++ {static} void resetClassSelectionScene()
+}
+
+
+
+
+scenes.BaseScene <|-- scenes.FightScene
+javafx.scene.layout.GridPane <|-- scenes.OptionScene
+scenes.BaseScene <|-- scenes.MarketScene
+javafx.scene.layout.GridPane <|-- scenes.DeathScene
+javafx.scene.layout.GridPane <|-- scenes.StartScene
+scenes.BaseScene <|-- scenes.BossScene
+scenes.BaseScene <|-- scenes.ClassSelectionScene
+@enduml

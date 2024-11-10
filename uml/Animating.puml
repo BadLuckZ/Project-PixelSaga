@@ -1,0 +1,63 @@
+@startuml
+class animating.Animation {
+- BaseEntity baseEntity
+- ColorAdjust colorAdjust
+- int currentFrameIndex
+- States previousState
+- States state
+- double yVelocity
+- boolean isMoveLeft
++ <<Create>> Animation(BaseEntity,double,double)
++ <<Create>> Animation(BaseObject,double,double)
++ void setSpawnPoint(BaseEntity,double,double)
++ void setSpawnPoint(BaseObject,double,double)
++ void updateFrame(States)
++ int getNumberOfRows(BaseEntity,States)
++ int getColumnNumber(States)
++ ColorAdjust getDefaultBrightness()
++ void setAnimationToDefault(BaseEntity,BaseScene)
++ void setDisableMovement()
++ BaseEntity getBaseEntity()
++ void setBaseEntity(BaseEntity)
++ int getCurrentFrameIndex()
++ void setCurrentFrameIndex(int)
++ States getState()
++ void setState(States)
++ boolean isMoveLeft()
++ void setMoveLeft(boolean)
++ boolean isMoveRight()
++ void setMoveRight(boolean)
++ boolean willMoveLeft()
++ void setWillMoveLeft(boolean)
++ boolean willMoveRight()
++ void setWillMoveRight(boolean)
++ boolean isJump()
++ void setJump(boolean)
++ boolean canJump()
++ void setCanJump(boolean)
++ boolean isAnimationPlaying()
++ void setAnimationPlaying(boolean)
++ boolean isHoldRMB()
++ void setHoldRMB(boolean)
++ States getPreviousState()
++ void setPreviousState(States)
++ double getyVelocity()
++ void setyVelocity(double)
+}
+
+
+class animating.HitBox {
+- BaseEntity baseEntity
++ <<Create>> HitBox(BaseEntity)
++ <<Create>> HitBox(BaseObject)
++ <<Create>> HitBox(BaseObject,int,int,int,int)
++ BaseEntity getBaseEntity()
++ void setBaseEntity(BaseEntity)
+}
+
+
+
+
+javafx.scene.image.ImageView <|-- animating.Animation
+javafx.scene.image.ImageView <|-- animating.HitBox
+@enduml

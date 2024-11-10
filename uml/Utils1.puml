@@ -1,0 +1,98 @@
+@startuml
+class utils.HelperMethods {
+- {static} Random random
+- {static} SoundLoader PLAYER_WALK
+- {static} SoundLoader PLAYER_DASH
+- {static} SoundLoader PLAYER_JUMP1
+- {static} SoundLoader PLAYER_JUMP2
+- {static} SoundLoader PLAYER_COLLECT
+- {static} SoundLoader PLAYER_UPGRADE
+- {static} SoundLoader PLAYER_BEING_HIT
+- {static} SoundLoader PLAYER_DODGE
++ {static} SoundLoader PLAYER_BUY_SUCCESS
++ {static} SoundLoader PLAYER_BUY_FAIL
+- {static} SoundLoader PLAYER_BUY_MISS
+- {static} SoundLoader PLAYER_BRUH
+- {static} SoundLoader PLAYER_DEAD
+- {static} SoundLoader MONSTER_BEING_HIT
+- {static} SoundLoader MONSTER_DEAD
+- {static} SoundLoader MONSTER_DODGE
+- {static} SoundLoader BOSS_FIRE
+- {static} SoundLoader BOSS_STOMP_EFFECT
+- {static} SoundLoader DAGGER_COMBO_ATTACK1
+- {static} SoundLoader DAGGER_COMBO_ATTACK2
+- {static} SoundLoader BROADSWORD_ATTACK
+- {static} SoundLoader BROADSWORD_STOMP_EFFECT
+- {static} SoundLoader NORMAL_ARROW_ATTACK
+- {static} SoundLoader CHARGE_ARROW_CHARGE
+- {static} SoundLoader CHARGE_ARROW_ATTACK
+- {static} SoundLoader MISSILE_ATTACK
+- {static} SoundLoader THROWERBOMB_ATTACK
+- {static} SoundLoader KLEE_BOMB
+- {static} SoundLoader NUCLEAR_BOMB
+- {static} SoundLoader GET_HEAL
+- {static} SoundLoader MERCHANT_SELL
+- {static} SoundLoader PERKCHEST_GET
+- {static} SoundLoader BASEREWARD_GET
+- {static} SoundLoader DOOR_OPEN
++ {static} int randomInteger(int,int)
++ {static} float randomFloat(float,float)
++ {static} float randomChance()
++ {static} int randomIntegerUsingPercent(int,int)
++ {static} int finalValuePercent(int,int)
++ {static} float finalValuePercentFloat(float,int)
++ {static} int calculateActionAttack(BaseEntity,BaseEntity,boolean,int)
++ {static} int calculateReflectionAttack(int,BaseMonster)
++ {static} void removeFromUnobtain(Player,BasePerk)
++ {static} ArrayList<BasePerk> generateAllPerks(Player)
++ {static} Button createButton(String)
++ {static} Button createButton(String,Color,Color)
++ {static} Text createTextForInventory(String,int,Color,double,double)
++ {static} Text createText(String,int,Color)
++ {static} Text createText(String,int,Color,FontWeight)
++ {static} boolean canMoveHere(BaseEntity,double,double,double,double,int[][])
+- {static} boolean isSolid(BaseEntity,double,double,int[][])
++ {static} boolean canMoveHereForObject(double,double,double,double,int[][])
+- {static} boolean isSolidForObject(double,double,int[][])
++ {static} void spawnPlayer(Player,int[][])
++ {static} int getTypeOfTile(double,double,int[][])
++ {static} void spawnMonsters(int[][],BaseScene)
+- {static} void spawnMonster(Player,String,BaseScene,double,double)
++ {static} ArrayList<SoundLoader> loadEntitiesSound(BaseEntity)
++ {static} ArrayList<SoundLoader> loadObjectsSound(BaseObject)
++ {static} SoundLoader getSoundFromSoundList(ArrayList<SoundLoader>,String)
++ {static} String randomRoomType()
++ {static} void calculateNewHp(BaseEntity,int,int)
++ {static} int countMonstersNearby(Player,float,float)
++ {static} boolean hasPerk(Player,BasePerk,boolean)
++ {static} ArrayList<BasePerk> createPerkChoices(Player,ArrayList<BasePerk>,int)
+- {static} void addPerkToResult(BasePerk,ArrayList<BasePerk>)
++ {static} ArrayList<String> createDoorChoices(ArrayList<String>,int)
++ {static} void createColumns(GridPane,int[])
++ {static} void createRows(GridPane,int[])
++ {static} ArrayList<SoundLoader> getAllSounds()
++ {static} void addAndDeleteText(BaseEntity,BaseScene,Text)
++ {static} void addAndDeleteStageStatus(BaseScene,Text)
++ {static} void knockBack(BaseEntity,FaceDirection,BaseScene)
++ {static} void immuneAfterAttacked(BaseEntity)
++ {static} void resetAllScenes()
++ {static} void createSymbol(BaseScene,String,double,double,BasePerk)
++ {static} ImageView loadCoinUI()
+}
+
+
+class utils.LevelData {
++ {static} int NUMBER_OF_FIGHT_ROOM_BEFORE_MARKET
++ {static} int[][] classSelectionSceneData
++ {static} int[][] firstFightSceneData
++ {static} int[][] secondFightSceneData
++ {static} int[][] thirdFightSceneData
++ {static} int[][] forthFightSceneData
++ {static} int[][] fifthFightSceneData
++ {static} int[][] marketSceneData
++ {static} int[][] BossSceneData
++ {static} ArrayList<int[][]> getAllFightScene()
+}
+
+
+@enduml

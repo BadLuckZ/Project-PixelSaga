@@ -1,0 +1,136 @@
+@startuml
+abstract class entities.bases.BaseBoss {
+- float cooldownSkill1
+- float cooldownSkill2
+- float cooldownSkill3
+- float skillOneAttackRange
+- float skillTwoAttackRange
+- float skillThreeAttackRange
+- boolean canSkill1
+- ArrayList<Integer> skillToRandom
+- float attackDelay
+- ArrayList<Integer> frameMakeDamageSkillOne
+- ArrayList<Integer> frameMakeDamageSkillTwo
+- ArrayList<Integer> frameMakeDamageSkillThree
++ <<Create>> BaseBoss()
++ void setCommonStatus()
++ float getCooldownSkill1()
++ void setCooldownSkill1(float)
++ float getCooldownSkill2()
++ void setCooldownSkill2(float)
++ float getCooldownSkill3()
++ void setCooldownSkill3(float)
++ float getSkillOneAttackRange()
++ void setSkillOneAttackRange(float)
++ float getSkillTwoAttackRange()
++ void setSkillTwoAttackRange(float)
++ float getSkillThreeAttackRange()
++ void setSkillThreeAttackRange(float)
++ ArrayList<Integer> getSkillToRandom()
++ boolean canSkill1()
++ void setCanSkill1(boolean)
++ boolean canSkill2()
++ void setCanSkill2(boolean)
++ boolean canSkill3()
++ void setCanSkill3(boolean)
++ float getAttackDelay()
++ void setAttackDelay(float)
++ ArrayList<Integer> getFrameMakeDamageSkillOne()
++ ArrayList<Integer> getFrameMakeDamageSkillTwo()
++ ArrayList<Integer> getFrameMakeDamageSkillThree()
+}
+
+
+abstract class entities.bases.BaseMonster {
+- float normalAttackDelay
+- float addAttackDelay
+- float dropRate
+- int coinDrop
+- float visionRange
+- float walkTime
+- float time
+- float timeSinceLastAttack
+- float standTime
+- float turningTime
+- boolean isWalk
+- boolean canSee
+- FaceDirection dashDirection
+- boolean moreCoinDrop
+- int knockbackChance
+- boolean isSlowdownByThornPerk
+- {static} ArrayList<String> CLOSE_RANGE_MONSTERS
+- {static} ArrayList<States> ATTACK_STATES
++ <<Create>> BaseMonster()
++ void setBaseStatus()
++ void isAttacked(BaseEntity,BaseScene,int)
++ void hurt(BaseEntity,BaseScene)
++ void dead(BaseEntity,BaseScene)
++ void move(BaseScene)
+- void checkFall(BaseScene,double,double,double,double)
+- void jump(BaseScene,double,double,double,double,double)
+- void checkDirection(BaseScene,double,double,double,double,double,float)
+- void checkWalk(FaceDirection,BaseScene,double,double,double,double,double,float)
+- boolean canWalk(FaceDirection,double,double,double,double,double,int[][])
+- void walk(double,double,float,BaseScene)
++ boolean canAttack(BaseEntity)
+- void prepareToAttack(BaseScene,float)
++ void attack(Player,BaseScene,int)
+- void checkDash(BaseScene)
+- void dash(double,int,BaseScene,boolean,Player)
++ boolean isPlayerInVisionRange(BaseScene)
+- boolean checkAttack(BaseScene)
+- boolean canOtherAttack(FaceDirection,double,double,double,BaseScene)
+- boolean canThrowerGiGeeAttack(BaseScene,double,double)
+- void checkMoveToPlayer(Player,float,BaseScene)
+- void moveToPlayer(FaceDirection,double,double,double,double,double,float,BaseScene)
++ boolean isPlayerInAttackRange(Player)
++ float getDeltaTilesX(Player)
++ float getDeltaTilesY(Player)
++ float getNormalAttackDelay()
++ void setNormalAttackDelay(float)
++ float getAddAttackDelay()
++ void setAddAttackDelay(float)
++ float getDropRate()
++ void setDropRate(float)
++ int getCoinDrop()
++ void setCoinDrop(int)
++ float getVisionRange()
++ void setVisionRange(float)
++ float getWalkTime()
++ void setWalkTime(float)
++ float getNewRandomTime()
++ float getTime()
++ void setTime(float)
++ float getStandTime()
++ void setStandTime(float)
++ void setWalk(boolean)
++ void setCanSee(boolean)
++ void setCanAttack(boolean)
++ boolean isPlayerAtRight(Player)
++ boolean isPlayerAtLeft(Player)
++ void setTurningTime(float)
++ float getTimeSinceLastAttack()
++ void setTimeSinceLastAttack(float)
++ int getKnockbackChance()
++ void setKnockbackChance(int)
++ boolean isSpawn()
++ void setSpawn(boolean)
++ FaceDirection getDashDirection()
++ void setDashDirection(FaceDirection)
++ void setMoreCoinDrop(boolean)
++ boolean isSlowdownByThornPerk()
++ void setSlowdownByThornPerk(boolean)
+}
+
+
+abstract class entities.bases.BaseGiGee {
++ <<Create>> BaseGiGee()
++ void setCommonStatus()
+}
+
+
+
+entities.bases.BaseMonster <|-- entities.bases.BaseBoss
+entities.bases.BaseEntity <|-- entities.bases.BaseMonster
+entities.bases.BaseMonster <|-- entities.bases.BaseGiGee
+@enduml

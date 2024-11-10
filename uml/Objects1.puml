@@ -1,0 +1,34 @@
+@startuml
+class objects.PerkChestReward {
+- int startX
+- int startY
+- boolean isOpen
++ <<Create>> PerkChestReward(BaseEntity,double,double,FaceDirection)
++ void openChest()
++ boolean isOpen()
++ void setOpen(boolean)
+}
+
+
+class objects.CoinReward {
++ <<Create>> CoinReward(BaseEntity,double,double,FaceDirection)
++ void collect(Player)
+}
+
+class objects.HPReward {
++ <<Create>> HPReward(BaseEntity,double,double,FaceDirection)
++ void collect(Player)
+}
+
+abstract class objects.BaseReward {
++ <<Create>> BaseReward(BaseEntity,double,double,FaceDirection)
+}
+
+
+
+objects.BaseObject <|-- objects.PerkChestReward
+objects.BaseReward <|-- objects.CoinReward
+objects.BaseReward <|-- objects.HPReward
+interfaces.Obtainable <|.. objects.BaseReward
+objects.BaseObject <|-- objects.BaseReward
+@enduml

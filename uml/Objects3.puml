@@ -1,0 +1,34 @@
+@startuml
+class objects.Door {
+- String doorType
+- boolean open
++ <<Create>> Door(BaseEntity,double,double,FaceDirection,String)
++ String getDoorType()
++ void openDoor()
++ boolean isOpen()
++ void setOpen(boolean)
+}
+
+
+class objects.HPDropLarge {
++ <<Create>> HPDropLarge(BaseEntity,double,double,FaceDirection)
+}
+
+class objects.HPDropSmall {
++ <<Create>> HPDropSmall(BaseEntity,double,double,FaceDirection)
+}
+
+class objects.Fire {
++ <<Create>> Fire(BaseEntity,double,double,FaceDirection,BaseScene)
+- void runRepeatAnimation(BaseScene)
+- void stopFire(BaseScene,BaseObject)
+- void createBossCooldownSkill3(BaseBoss)
+}
+
+
+
+objects.BaseObject <|-- objects.Door
+objects.BaseObject <|-- objects.HPDropLarge
+objects.BaseObject <|-- objects.HPDropSmall
+objects.BaseObject <|-- objects.Fire
+@enduml

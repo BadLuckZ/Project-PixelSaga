@@ -1,0 +1,72 @@
+@startuml
+class utils.CanvasDrawer {
+- {static} Image template
+- BaseScene scene
+- int getValueInThatCoor(int,int)
+- int getXCoor(int,int)
+- int getYCoor(int,int)
++ void drawBackground(GraphicsContext)
+- void drawDoors(ArrayList<String>,int,int)
++ void drawMinimap(GraphicsContext)
++ void drawEntities(GraphicsContext)
+- void drawDoorsMinimap(GraphicsContext)
+- void drawPlayerMinimap(GraphicsContext)
+- void drawAllMonstersMinimap(GraphicsContext)
+}
+
+
+class utils.GameConstants {
++ {static} int gameWidth
++ {static} int gameHeight
++ {static} int uiOffset
++ {static} int healthWidth
++ {static} int healthHeight
++ {static} int healthUIWidth
++ {static} int healthUIHeight
++ {static} double scaleForUI
++ {static} double edgeRightOfHealthBar
++ {static} double edgeTopOfHealthBar
++ {static} ArrayList<String> ROOM_TYPES
++ {static} double borderL
++ {static} double borderR
++ {static} SoundLoader START_SCENE_SONG
++ {static} SoundLoader CLASS_SELECTION_SCENE_SONG
++ {static} SoundLoader FIGHT_SCENE_SONG1
++ {static} SoundLoader FIGHT_SCENE_SONG2
++ {static} SoundLoader FIGHT_SCENE_SONG3
++ {static} SoundLoader FIGHT_SCENE_SONG4
++ {static} SoundLoader FIGHT_SCENE_SONG5
++ {static} SoundLoader FIGHT_SCENE_SONG6
++ {static} SoundLoader MARKET_SCENE_SONG
++ {static} SoundLoader BOSS_SCENE_SONG
++ {static} SoundLoader INVENTORY
++ {static} ArrayList<Integer> passableTile
++ {static} ArrayList<Integer> airTile
++ {static} ArrayList<Integer> spawnMonsterTile
++ {static} Font thaleahFatFont
++ {static} Font thaleahFatFontButton
++ {static} Color GREEN_FOR_UI
++ {static} double soundVolume
++ {static} void setGameWidth(int)
++ {static} void setGameHeight(int)
++ {static} void stopAllBackgroundSongs()
+}
+
+
+class utils.SoundLoader {
+- String name
+- MediaPlayer mediaPlayer
+- AudioClip audioClip
+- {static} ArrayList<String> BACKGROUNDS
++ boolean isPlay
++ void play()
++ void stop()
++ String getName()
++ MediaPlayer getMediaPlayer()
+}
+
+
+
+
+javafx.scene.canvas.Canvas <|-- utils.CanvasDrawer
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+class objects.Bomb {
+- String type
++ <<Create>> Bomb(BaseEntity,double,double,FaceDirection,BaseScene)
+}
+
+
+class objects.ChargeArrow {
+- int damageIncreasing
++ <<Create>> ChargeArrow(BaseEntity,double,double,FaceDirection,int)
++ int getDamageIncreasing()
++ void setDamageIncreasing(int)
+}
+
+
+class objects.BlackSmith {
+- String type
+- boolean isStop
++ <<Create>> BlackSmith(BaseEntity,double,double,FaceDirection,String)
+- void runAnimation(int)
++ void disappear(BaseScene)
++ String getType()
++ void setType(String)
++ boolean isStop()
++ void setStop(boolean)
+}
+
+
+class objects.NormalArrow {
++ <<Create>> NormalArrow(BaseEntity,double,double,FaceDirection)
+}
+
+
+
+objects.BaseObject <|-- objects.Bomb
+objects.BaseObject <|-- objects.ChargeArrow
+objects.BaseObject <|-- objects.BlackSmith
+objects.BaseObject <|-- objects.NormalArrow
+@enduml

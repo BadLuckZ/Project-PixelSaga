@@ -1,0 +1,51 @@
+@startuml
+class objects.ThrowerBomb {
+- boolean isActivate
+- String throwerType
++ <<Create>> ThrowerBomb(BaseEntity,double,double,FaceDirection,double,double,String)
+- void canIgnoreTileTimer(String)
++ void activateBomb(BaseScene)
+- void setDefaultSetUp(BaseScene)
+- void setIceSetUp(BaseScene)
++ boolean isActivate()
++ void setActivate(boolean)
++ String getThrowerType()
++ void setThrowerType(String)
+}
+
+
+class objects.Symbol {
+- ArrayList<String> CLASSLIST
+- String symbolType
+- String popUpString
+- BasePerk perk
++ <<Create>> Symbol(BaseEntity,double,double,FaceDirection,String,BasePerk)
++ String getSymbolType()
++ void setSymbolType(String)
++ BasePerk getPerk()
++ void setPerk(BasePerk)
++ String getPopUpString()
++ void setPopUpString(String)
+}
+
+
+class objects.StompEffect {
++ <<Create>> StompEffect(BaseEntity,double,double,FaceDirection,BaseScene)
+}
+
+class objects.VendingMachine {
+- boolean isStop
++ <<Create>> VendingMachine(BaseEntity,double,double,FaceDirection)
+- void runAnimation()
++ boolean isStop()
++ void setStop(boolean)
+}
+
+
+
+
+objects.BaseObject <|-- objects.ThrowerBomb
+objects.BaseObject <|-- objects.Symbol
+objects.BaseObject <|-- objects.StompEffect
+objects.BaseObject <|-- objects.VendingMachine
+@enduml

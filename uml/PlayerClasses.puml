@@ -1,0 +1,28 @@
+@startuml
+class entities.player.classes.Bow {
++ <<Create>> Bow()
++ void setUniqueStatus()
+}
+
+class entities.player.classes.BroadSword {
++ <<Create>> BroadSword()
++ void setUniqueStatus()
+}
+
+class entities.player.classes.Anonymous {
++ <<Create>> Anonymous()
++ void setUniqueStatus()
+}
+
+class entities.player.classes.Dagger {
++ <<Create>> Dagger()
++ void setUniqueStatus()
+}
+
+
+
+entities.bases.BaseClass <|-- entities.player.classes.Bow
+entities.bases.BaseClass <|-- entities.player.classes.BroadSword
+entities.bases.BaseClass <|-- entities.player.classes.Anonymous
+entities.bases.BaseClass <|-- entities.player.classes.Dagger
+@enduml

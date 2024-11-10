@@ -1,0 +1,137 @@
+@startuml
+class threads.StatThread {
+- BaseScene baseScene
+- Player player
+- boolean isRunning
++ <<Create>> StatThread(BaseScene)
++ void stopThread()
++ void run()
+- void restoreDash()
+- void getDash()
+}
+
+
+class threads.MovingThread {
+- BaseScene scene
+- boolean isRunning
+- Player player
++ <<Create>> MovingThread(BaseScene)
++ void stopThread()
++ void run()
+- void moveAllMonsters()
+- void moveAllObjects()
+- void removeObjects(ArrayList<BaseObject>,ArrayList<Animation>)
+}
+
+
+class threads.BotLogicThread {
+- {static} BaseScene scene
+- {static} Player player
+- boolean isRunning
+- long delayTime
+- {static} boolean isLaunchWave
+- {static} int currentWaveNumber
+- {static} int maxWaveNumber
+- {static} boolean isWaveClear
+- {static} boolean hasCreatedText
++ <<Create>> BotLogicThread(BaseScene)
++ void stopThread()
++ void run()
+- void checkWave()
+- void launchWave()
+- {static} void createRewardZone(FightScene)
+- {static} void drawRewardArea(FightScene)
++ {static} void addWave()
+- void checkCooldownAttack(BaseMonster)
+- void checkBossCooldownAttack(BaseBoss)
+- void dropFromFloatingFloor(BaseBoss)
+- void randomUseSkill(BaseBoss)
+- void chooseSkill(BaseBoss)
+- void checkGiGeeCooldownAttack(BaseGiGee)
+- void createActionIdle(BaseMonster)
+- void standIdle(BaseMonster)
+- void walkIdle(BaseMonster)
++ {static} void setWaveClear(boolean)
++ {static} void setHasCreatedText(boolean)
++ {static} int getCurrentWaveNumber()
++ {static} int getMaxWaveNumber()
++ {static} void setCurrentWaveNumber(int)
++ {static} void setMaxWaveNumber(int)
+}
+
+
+class threads.MonsterAnimationThread {
+- ArrayList<States> bossAnimationState
+- int frameCount
+- int speedMultiplier
+- boolean isBossJump
++ <<Create>> MonsterAnimationThread(BaseScene)
++ void run()
+- void makeBossFrameAnimation()
+- void updateBossAnimationFrame(States,States,BaseBoss,Animation)
+- void createBossCooldown(BaseBoss,States)
+- void updateBossSkillOne(States,States,BaseBoss,Animation)
+- void createStompEffect(BaseBoss,Animation)
+- void updateBossSkillTwoFirstPart(States,States,BaseBoss,Animation)
+- void jumpBossToPlayer(BaseBoss,Animation)
+- void updateBossSkillTwoLastPart(States,BaseBoss,Animation)
+- void createStompEffectAndShockWave(BaseBoss,Animation)
+- void createMultipleShockWave(BaseBoss,Animation)
+- void createShockWave(BaseBoss,Animation,FaceDirection,double,double,int)
+- void updateBossSkillThree(States,States,BaseBoss,Animation)
+- void createFire(BaseBoss,Animation)
+}
+
+
+class threads.PlayerAnimationThread {
+# BaseScene scene
+# Player player
+# boolean isRunning
+# ArrayList<States> loopAnimationState
+# ArrayList<States> oneTimeAnimationState
++ int chargeCount
++ boolean isChargeAttack
++ boolean isSwitchState
++ <<Create>> PlayerAnimationThread(BaseScene)
++ void stopThread()
++ void run()
+- void makePlayerFrameAnimation(States)
+# void oneTimeAnimationUpdateFrame(States,States,BaseEntity,Animation)
+# void loopAnimationUpdateFrame(States,States,Animation)
+- void updatePlayerNormalAttack(States,States,Animation)
+- void updatePlayerSpecialAttack(States,States,Animation)
+- void updateMonsterDead(States,States,BaseEntity,Animation)
+- void removeMonster(BaseEntity,States)
+- void dropHpMonster(States,BaseEntity,Animation)
+- void updateMonsterAttack(BaseEntity)
+- void updateArcherGiGeeAttack(BaseEntity)
+- void updateThrowerGiGeeAttack(BaseEntity)
+- void createThrowerBomb(BaseEntity,String,double,double)
+# void prepareToUpdateAnimation(States,Animation)
+- void updateOneCombo(States,States,Animation)
+- void createNormalArrow()
+- void twoComboUpdateFrames(States,States,Animation)
+- void playAttackSoundCombo()
+- void checkFrameAttack(Animation)
+- void updateBowSpecialAttack(States,States,Animation)
+- void updateHoldRMB(States,States,Animation)
+- void updateReleaseRMB(States,Animation,ChargeArrow,int)
+- void successToChargeAttack(States,Animation,ChargeArrow,int)
+- void failToChargeAttack(States,Animation)
+- void createSpecialAttackCooldownTimer()
+- void updateBroadSwordSpecialAttack(States,States,Animation)
+- void jumpBroadSword(Animation)
+- void createBroadSwordLastAttack(States,Animation)
+- void updateDaggerSpecialAttack(States,States,Animation)
+- void createCritRateBuffTimer()
+}
+
+
+
+
+threads.Thread <|-- threads.StatThread
+threads.Thread <|-- threads.MovingThread
+threads.Thread <|-- threads.BotLogicThread
+threads.PlayerAnimationThread <|-- threads.MonsterAnimationThread
+threads.Thread <|-- threads.PlayerAnimationThread
+@enduml

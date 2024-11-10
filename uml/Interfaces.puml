@@ -1,0 +1,34 @@
+@startuml
+interface interfaces.Attackable {
+~ boolean canAttack(BaseEntity)
+~ void attack(Player,BaseScene,int)
+~ void isAttacked(BaseEntity,BaseScene,int)
+~ void hurt(BaseEntity,BaseScene)
+~ void dead(BaseEntity,BaseScene)
+}
+
+interface interfaces.Obtainable {
+~ void collect(Player)
+}
+
+interface interfaces.Upgradable {
+~ boolean canUpgrade(Player)
+~ void upgrade(Player,Tier)
+}
+
+interface interfaces.Tradable {
+~ boolean canSell(Player)
+~ void sell(Player,BaseScene)
+}
+
+interface interfaces.Moveable {
+~ void move(BaseScene)
+}
+
+interface interfaces.Perkable {
+~ boolean canUsePerk(Player)
+~ void activatePerk(Player)
+~ void deactivatePerk(Player)
+}
+
+@enduml

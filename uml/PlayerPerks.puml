@@ -1,0 +1,185 @@
+@startuml
+class entities.player.perks.UndeadPerk {
+- {static} boolean inCooldown
+- {static} boolean hasStartTimer
+- {static} int activationDuration
+- {static} int cooldownDuration
+- {static} long startTime
+- {static} SoundLoader UNDEAD_SOUND
+- {static} AnimationTimer deadTimer
+- {static} AnimationTimer cooldownTimer
++ <<Create>> UndeadPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} boolean isUndeadInCooldown()
+- void createCooldownTimer()
+- void createActivationTimer(Player)
++ {static} SoundLoader getUndeadSound()
++ void activateUndead(Player)
+}
+
+
+class entities.player.perks.IntrovertPerk {
+- {static} float IN_RANGE_TILES_X
+- {static} float IN_RANGE_TILES_Y
+- {static} int monsterCount
+- {static} int latestValue
++ <<Create>> IntrovertPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+class entities.player.perks.FatalAttackPerk {
++ <<Create>> FatalAttackPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.ReinforcedPerk {
++ <<Create>> ReinforcedPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.RapidFirePerk {
++ <<Create>> RapidFirePerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.BerserkPerk {
++ <<Create>> BerserkPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.PerfectionistPerk {
++ <<Create>> PerfectionistPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.DiscountMasterPerk {
+- {static} float chance
++ <<Create>> DiscountMasterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} float getChance()
+}
+
+
+class entities.player.perks.TreasureHunterPerk {
++ {static} float chance
++ {static} boolean canRandom
++ <<Create>> TreasureHunterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void setCanRandomTreasure(boolean)
+}
+
+
+class entities.player.perks.FortifyPerk {
++ <<Create>> FortifyPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.ThornPerk {
++ <<Create>> ThornPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void slow(BaseMonster)
+}
+
+class entities.player.perks.ExtrovertPerk {
+- {static} float IN_RANGE_TILES_X
+- {static} float IN_RANGE_TILES_Y
+- {static} int monsterCountBefore
+- {static} int monsterCountAfter
++ <<Create>> ExtrovertPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+class entities.player.perks.VampirismPerk {
+- {static} boolean canGainedHP
+- {static} float vampirismChance
++ <<Create>> VampirismPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void activateVampirism()
++ {static} void setCanGainedHP(boolean)
+}
+
+
+class entities.player.perks.PrecisionStrikePerk {
++ <<Create>> PrecisionStrikePerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.JukeMasterPerk {
++ <<Create>> JukeMasterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.LuckyManPerk {
++ <<Create>> LuckyManPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+
+entities.bases.BasePerk <|-- entities.player.perks.UndeadPerk
+entities.bases.BasePerk <|-- entities.player.perks.IntrovertPerk
+entities.bases.BasePerk <|-- entities.player.perks.FatalAttackPerk
+entities.bases.BasePerk <|-- entities.player.perks.ReinforcedPerk
+entities.bases.BasePerk <|-- entities.player.perks.RapidFirePerk
+entities.bases.BasePerk <|-- entities.player.perks.BerserkPerk
+entities.bases.BasePerk <|-- entities.player.perks.PerfectionistPerk
+entities.bases.BasePerk <|-- entities.player.perks.DiscountMasterPerk
+entities.bases.BasePerk <|-- entities.player.perks.TreasureHunterPerk
+entities.bases.BasePerk <|-- entities.player.perks.FortifyPerk
+entities.bases.BasePerk <|-- entities.player.perks.ThornPerk
+entities.bases.BasePerk <|-- entities.player.perks.ExtrovertPerk
+entities.bases.BasePerk <|-- entities.player.perks.VampirismPerk
+entities.bases.BasePerk <|-- entities.player.perks.PrecisionStrikePerk
+entities.bases.BasePerk <|-- entities.player.perks.JukeMasterPerk
+entities.bases.BasePerk <|-- entities.player.perks.LuckyManPerk
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+class entities.player.perks.UndeadPerk {
+- {static} boolean inCooldown
+- {static} boolean hasStartTimer
+- {static} int activationDuration
+- {static} int cooldownDuration
+- {static} long startTime
+- {static} SoundLoader UNDEAD_SOUND
+- {static} AnimationTimer deadTimer
+- {static} AnimationTimer cooldownTimer
++ <<Create>> UndeadPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} boolean isUndeadInCooldown()
+- void createCooldownTimer()
+- void createActivationTimer(Player)
++ {static} SoundLoader getUndeadSound()
++ void activateUndead(Player)
+}
+
+
+class entities.player.perks.VampirismPerk {
+- {static} boolean canGainedHP
+- {static} float vampirismChance
++ <<Create>> VampirismPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void activateVampirism()
++ {static} void setCanGainedHP(boolean)
+}
+
+
+class entities.player.perks.TreasureHunterPerk {
++ {static} float chance
++ {static} boolean canRandom
++ <<Create>> TreasureHunterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void setCanRandomTreasure(boolean)
+}
+
+
+class entities.player.perks.ThornPerk {
++ <<Create>> ThornPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void slow(BaseMonster)
+}
+
+
+
+entities.bases.BasePerk <|-- entities.player.perks.UndeadPerk
+entities.bases.BasePerk <|-- entities.player.perks.VampirismPerk
+entities.bases.BasePerk <|-- entities.player.perks.TreasureHunterPerk
+entities.bases.BasePerk <|-- entities.player.perks.ThornPerk
+@enduml

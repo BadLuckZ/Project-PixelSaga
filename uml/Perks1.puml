@@ -1,0 +1,48 @@
+@startuml
+class entities.player.perks.ExtrovertPerk {
+- {static} float IN_RANGE_TILES_X
+- {static} float IN_RANGE_TILES_Y
+- {static} int monsterCountBefore
+- {static} int monsterCountAfter
++ <<Create>> ExtrovertPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+class entities.player.perks.FatalAttackPerk {
++ <<Create>> FatalAttackPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.BerserkPerk {
++ <<Create>> BerserkPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.DiscountMasterPerk {
+- {static} float chance
++ <<Create>> DiscountMasterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} float getChance()
+}
+
+
+
+
+entities.bases.BasePerk <|-- entities.player.perks.ExtrovertPerk
+entities.bases.BasePerk <|-- entities.player.perks.FatalAttackPerk
+entities.bases.BasePerk <|-- entities.player.perks.BerserkPerk
+entities.bases.BasePerk <|-- entities.player.perks.DiscountMasterPerk
+@enduml

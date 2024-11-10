@@ -1,0 +1,2099 @@
+@startuml
+abstract class entities.bases.BaseGiGee {
++ <<Create>> BaseGiGee()
++ void setCommonStatus()
+}
+
+class utils.CanvasDrawer {
+- {static} Image template
+- BaseScene scene
++ <<Create>> CanvasDrawer(BaseScene,double,double)
+- int getValueInThatCoor(int,int)
+- int getXCoor(int,int)
+- int getYCoor(int,int)
++ void drawBackground(GraphicsContext)
+- void drawDoors(ArrayList<String>,int,int)
++ void drawMinimap(GraphicsContext)
++ void drawEntities(GraphicsContext)
+- void drawDoorsMinimap(GraphicsContext)
+- void drawPlayerMinimap(GraphicsContext)
+- void drawAllMonstersMinimap(GraphicsContext)
+}
+
+
+class objects.ChargeArrow {
+- int damageIncreasing
++ <<Create>> ChargeArrow(BaseEntity,double,double,FaceDirection,int)
++ int getDamageIncreasing()
++ void setDamageIncreasing(int)
+}
+
+
+abstract class objects.BaseReward {
++ <<Create>> BaseReward(BaseEntity,double,double,FaceDirection)
+}
+
+class scenes.StartScene {
+- {static} StartScene instance
++ <<Create>> StartScene(Stage)
++ {static} StartScene getStartScene(Stage)
++ {static} void resetStartScene()
+}
+
+
+class threads.StatThread {
+- BaseScene baseScene
+- Player player
+- boolean isRunning
++ <<Create>> StatThread(BaseScene)
++ void stopThread()
++ void run()
+- void restoreDash()
+- void getDash()
+}
+
+
+class utils.GameConstants {
++ {static} int gameWidth
++ {static} int gameHeight
++ {static} int uiOffset
++ {static} int healthWidth
++ {static} int healthHeight
++ {static} int healthUIWidth
++ {static} int healthUIHeight
++ {static} double scaleForUI
++ {static} double edgeRightOfHealthBar
++ {static} double edgeTopOfHealthBar
++ {static} ArrayList<String> ROOM_TYPES
++ {static} double borderL
++ {static} double borderR
++ {static} SoundLoader START_SCENE_SONG
++ {static} SoundLoader CLASS_SELECTION_SCENE_SONG
++ {static} SoundLoader FIGHT_SCENE_SONG1
++ {static} SoundLoader FIGHT_SCENE_SONG2
++ {static} SoundLoader FIGHT_SCENE_SONG3
++ {static} SoundLoader FIGHT_SCENE_SONG4
++ {static} SoundLoader FIGHT_SCENE_SONG5
++ {static} SoundLoader FIGHT_SCENE_SONG6
++ {static} SoundLoader MARKET_SCENE_SONG
++ {static} SoundLoader BOSS_SCENE_SONG
++ {static} SoundLoader INVENTORY
++ {static} ArrayList<Integer> passableTile
++ {static} ArrayList<Integer> airTile
++ {static} ArrayList<Integer> spawnMonsterTile
++ {static} Font thaleahFatFont
++ {static} Font thaleahFatFontButton
++ {static} Color GREEN_FOR_UI
++ {static} double soundVolume
++ {static} void setGameWidth(int)
++ {static} void setGameHeight(int)
++ {static} void stopAllBackgroundSongs()
+}
+
+
+class entities.player.perks.IntrovertPerk {
+- {static} float IN_RANGE_TILES_X
+- {static} float IN_RANGE_TILES_Y
+- {static} int monsterCount
+- {static} int latestValue
++ <<Create>> IntrovertPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+class entities.player.classes.Bow {
++ <<Create>> Bow()
++ void setUniqueStatus()
+}
+
+class threads.MonsterAnimationThread {
+- ArrayList<States> bossAnimationState
+- int frameCount
+- int speedMultiplier
+- boolean isBossJump
++ <<Create>> MonsterAnimationThread(BaseScene)
++ void run()
+- void makeBossFrameAnimation()
+- void updateBossAnimationFrame(States,States,BaseBoss,Animation)
+- void createBossCooldown(BaseBoss,States)
+- void updateBossSkillOne(States,States,BaseBoss,Animation)
+- void createStompEffect(BaseBoss,Animation)
+- void updateBossSkillTwoFirstPart(States,States,BaseBoss,Animation)
+- void jumpBossToPlayer(BaseBoss,Animation)
+- void updateBossSkillTwoLastPart(States,BaseBoss,Animation)
+- void createStompEffectAndShockWave(BaseBoss,Animation)
+- void createMultipleShockWave(BaseBoss,Animation)
+- void createShockWave(BaseBoss,Animation,FaceDirection,double,double,int)
+- void updateBossSkillThree(States,States,BaseBoss,Animation)
+- void createFire(BaseBoss,Animation)
+}
+
+
+class entities.player.perks.UndeadPerk {
+- {static} boolean inCooldown
+- {static} boolean hasStartTimer
+- {static} int activationDuration
+- {static} int cooldownDuration
+- {static} long startTime
+- {static} SoundLoader UNDEAD_SOUND
+- {static} AnimationTimer deadTimer
+- {static} AnimationTimer cooldownTimer
++ <<Create>> UndeadPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} boolean isUndeadInCooldown()
+- void createCooldownTimer()
+- void createActivationTimer(Player)
++ {static} SoundLoader getUndeadSound()
++ void activateUndead(Player)
+}
+
+
+class objects.HPReward {
++ <<Create>> HPReward(BaseEntity,double,double,FaceDirection)
++ void collect(Player)
+}
+
+abstract class scenes.BaseScene {
+- CanvasDrawer bgDrawer
+- CanvasDrawer minimapDrawer
+- CanvasDrawer entitiesInMiniMap
+- Image bgImg
+- ImageView bgImgView
+- ImageView healthUI
+- Rectangle healthBar
+- Text healthText
+- ImageView bossHealthBarFrame
+- Rectangle bossHealthBar
+- ImageView bossHealthBarBg
+- ImageView coinUI
+- Text coinText
+- ImageView remainMonsterUI
+- Text remainMonsterText
+- Text waveText
+- ImageView dashIcon
+- ImageView firstIconFrame
+- ImageView secondIconFrame
+- Text dashRemaining
+- Rectangle dashCoolDown
+- ImageView specialAttackIcon
+- Rectangle specialAttackCoolDown
+- ImageView miniMapBgUI
+- Group playerUI
+- Group inventoryUI
+- Group upgradeUI
+- Group choiceUI
+- Group perkChestUI
+- int[][] lvlData
+- Player player
+- Set<KeyCode> pressedKeys
+- Stage stage
+# PlayerAnimationThread playerAnimationThread
+# MovingThread movingThread
+# MonsterAnimationThread monsterAnimationThread
+# BotLogicThread botLogicThread
+# StatThread statThread
+- ArrayList<Door> doors
+- boolean isPause
+- ArrayList<Node> toRemovePerkIcons
++ <<Create>> BaseScene(Stage)
++ void drawUI()
+- void createHpGroup()
+- void createSkillIcon()
+- void createFirstIcon(Image)
+- void createSecondIcon(Image)
+- void createDashIcon(Image)
+- void createSpecialAttackIcon(Image)
+- void createMiniMap()
+- void createStageDetails()
+- void createBossHealthBar()
+- void createCoinGroup(String)
+- void adjustCoinGroup(Image,double,double,double,double,double,double)
+- void createMonsterRemainingGroup(String)
+- void createWaveNumberGroup(String)
+- void addElementsToPlayerUI()
++ void updateUI()
+- void updateHpGroup()
+- void updateBossHealthBar()
+- void updateStageDetails()
+- void updateCoin(String)
+- void updateMonsterRemaining(String)
+- void updateDash()
+- void updateWaveNumber(String)
++ void updateMiniMap()
++ void drawBackground()
++ void createInventoryUI()
+- void drawAllPerks(Group,float[],float[])
+- void drawPerk(BasePerk,float,float,Group)
+- void createPerkText(BasePerk,float,float,Group)
+- void createPerkIcon(BasePerk,float,float,Group)
+- ImageView showMiniPopUp(BasePerk,double,double)
+- void pickPerkToUpgrade(BasePerk)
+- void createPerkChoiceToUpgrade(BasePerk,Tier,double,double)
+- void setUpChoice(ImageView,double,double,BasePerk,Tier)
+- void setUpPriceGroup(ImageView,BasePerk,Group)
+- Group createMenuButton()
+- void addAllStats(double,ImageView,Group)
++ void createUpgradeUI()
+- Group createBackButton()
++ void createPerkChestUI()
+- void setPerkChestBackground(ImageView)
+- void addSelectedPerksForChest(ArrayList<BasePerk>,ImageView,BaseScene)
+- void selectPerkToObtain(BasePerk,BaseScene)
++ void setKey(Animation)
+- void handleKeyPressed(Animation)
+- void interact()
+- void interactInClassSelectionScene()
+- void interactInFightScene()
+- void interactInMarketScene()
+- void pickPerkToBuy(Symbol)
+- void removePerk(Symbol)
+- void activatePassingTheFloor()
+- void activateJump(Animation)
+- void activateDash(Animation)
+- void obtainBaseReward()
+- void obtainPerkChestReward()
+- void pressInventory()
+- void nextStage()
+- void interactSymbol(Symbol)
+- void pressMoveLeft(Animation)
+- void pressMoveRight(Animation)
+- void createOpenDoor()
+- void selectClass(String)
+- void setPlayerClass(String)
+- void setPlayerPosition(String)
+- void setFaceDirection(FaceDirection)
++ void startAllThreads(BaseScene)
+- void handleKeyReleased(KeyCode,Animation)
+- void releaseMoveRight(Animation)
+- void releaseMoveLeft(Animation)
+- void handleMouseClicked(MouseButton,Animation)
+- void activateNormalAttack(Animation)
+- void activateSpecialAttack(Animation)
+- void handleMousePressed(MouseButton,Animation)
+- void activateBowSpecialAttack(Animation)
+- void activateBroadSwordSpecialAttack(Animation)
+- void activateDaggerSpecialAttack(Animation)
+- void handleMouseReleased(MouseButton,Animation)
++ void blink(ImageView)
++ void setScenePosition()
++ String toString()
++ void stopAllThreads()
++ void setLowBrightness()
++ void setDefaultBrightness()
++ Player getPlayer()
++ void setPlayer(Player)
++ Image getBgImg()
++ void setBgImg(Image)
++ ImageView getBgImgView()
++ void setBgImgView(ImageView)
++ Set<KeyCode> getPressedKeys()
++ int[][] getLvlData()
++ void setLvlData(int[][])
++ Stage getStage()
++ Group getPlayerUI()
++ ArrayList<Door> getDoors()
++ void setDoors(ArrayList<Door>)
++ boolean isPause()
++ void setPause(boolean)
++ ImageView getDashIcon()
++ Rectangle getDashCoolDown()
++ ImageView getSpecialAttackIcon()
++ Rectangle getSpecialAttackCoolDown()
+}
+
+
+class utils.LevelData {
++ {static} int NUMBER_OF_FIGHT_ROOM_BEFORE_MARKET
++ {static} int[][] classSelectionSceneData
++ {static} int[][] firstFightSceneData
++ {static} int[][] secondFightSceneData
++ {static} int[][] thirdFightSceneData
++ {static} int[][] forthFightSceneData
++ {static} int[][] fifthFightSceneData
++ {static} int[][] marketSceneData
++ {static} int[][] BossSceneData
++ {static} ArrayList<int[][]> getAllFightScene()
+}
+
+
+abstract class entities.bases.BaseBoss {
+- float cooldownSkill1
+- float cooldownSkill2
+- float cooldownSkill3
+- float skillOneAttackRange
+- float skillTwoAttackRange
+- float skillThreeAttackRange
+- boolean canSkill1
+- ArrayList<Integer> skillToRandom
+- float attackDelay
+- ArrayList<Integer> frameMakeDamageSkillOne
+- ArrayList<Integer> frameMakeDamageSkillTwo
+- ArrayList<Integer> frameMakeDamageSkillThree
++ <<Create>> BaseBoss()
++ void setCommonStatus()
++ float getCooldownSkill1()
++ void setCooldownSkill1(float)
++ float getCooldownSkill2()
++ void setCooldownSkill2(float)
++ float getCooldownSkill3()
++ void setCooldownSkill3(float)
++ float getSkillOneAttackRange()
++ void setSkillOneAttackRange(float)
++ float getSkillTwoAttackRange()
++ void setSkillTwoAttackRange(float)
++ float getSkillThreeAttackRange()
++ void setSkillThreeAttackRange(float)
++ ArrayList<Integer> getSkillToRandom()
++ boolean canSkill1()
++ void setCanSkill1(boolean)
++ boolean canSkill2()
++ void setCanSkill2(boolean)
++ boolean canSkill3()
++ void setCanSkill3(boolean)
++ float getAttackDelay()
++ void setAttackDelay(float)
++ ArrayList<Integer> getFrameMakeDamageSkillOne()
++ ArrayList<Integer> getFrameMakeDamageSkillTwo()
++ ArrayList<Integer> getFrameMakeDamageSkillThree()
+}
+
+
+class objects.ShockWave {
++ <<Create>> ShockWave(BaseEntity,double,double,FaceDirection,BaseScene)
+}
+
+class animating.Animation {
+- BaseEntity baseEntity
+- ColorAdjust colorAdjust
+- int currentFrameIndex
+- States previousState
+- States state
+- double yVelocity
+- boolean isMoveLeft
++ <<Create>> Animation(BaseEntity,double,double)
++ <<Create>> Animation(BaseObject,double,double)
++ void setSpawnPoint(BaseEntity,double,double)
++ void setSpawnPoint(BaseObject,double,double)
++ void updateFrame(States)
++ int getNumberOfRows(BaseEntity,States)
++ int getColumnNumber(States)
++ ColorAdjust getDefaultBrightness()
++ void setAnimationToDefault(BaseEntity,BaseScene)
++ void setDisableMovement()
++ BaseEntity getBaseEntity()
++ void setBaseEntity(BaseEntity)
++ int getCurrentFrameIndex()
++ void setCurrentFrameIndex(int)
++ States getState()
++ void setState(States)
++ boolean isMoveLeft()
++ void setMoveLeft(boolean)
++ boolean isMoveRight()
++ void setMoveRight(boolean)
++ boolean willMoveLeft()
++ void setWillMoveLeft(boolean)
++ boolean willMoveRight()
++ void setWillMoveRight(boolean)
++ boolean isJump()
++ void setJump(boolean)
++ boolean canJump()
++ void setCanJump(boolean)
++ boolean isAnimationPlaying()
++ void setAnimationPlaying(boolean)
++ boolean isHoldRMB()
++ void setHoldRMB(boolean)
++ States getPreviousState()
++ void setPreviousState(States)
++ double getyVelocity()
++ void setyVelocity(double)
+}
+
+
+interface interfaces.Obtainable {
+~ void collect(Player)
+}
+
+class entities.monsters.PeasantGiGee {
++ <<Create>> PeasantGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+class objects.Bomb {
+- String type
++ <<Create>> Bomb(BaseEntity,double,double,FaceDirection,BaseScene)
+}
+
+
+class scenes.MarketScene {
+- {static} MarketScene instance
++ <<Create>> MarketScene(Stage,Player)
+- void createAllPerkSymbols(Player)
+- void createMerchant()
+- void createBlackSmith()
++ {static} MarketScene getMarketScene(Stage,Player)
++ {static} void resetMarketScene()
+}
+
+
+class animating.HitBox {
+- BaseEntity baseEntity
++ <<Create>> HitBox(BaseEntity)
++ <<Create>> HitBox(BaseObject)
++ <<Create>> HitBox(BaseObject,int,int,int,int)
++ BaseEntity getBaseEntity()
++ void setBaseEntity(BaseEntity)
+}
+
+
+class threads.PlayerAnimationThread {
+# BaseScene scene
+# Player player
+# boolean isRunning
+# ArrayList<States> loopAnimationState
+# ArrayList<States> oneTimeAnimationState
++ int chargeCount
++ boolean isChargeAttack
++ boolean isSwitchState
++ <<Create>> PlayerAnimationThread(BaseScene)
++ void stopThread()
++ void run()
+- void makePlayerFrameAnimation(States)
+# void oneTimeAnimationUpdateFrame(States,States,BaseEntity,Animation)
+# void loopAnimationUpdateFrame(States,States,Animation)
+- void updatePlayerNormalAttack(States,States,Animation)
+- void updatePlayerSpecialAttack(States,States,Animation)
+- void updateMonsterDead(States,States,BaseEntity,Animation)
+- void removeMonster(BaseEntity,States)
+- void dropHpMonster(States,BaseEntity,Animation)
+- void updateMonsterAttack(BaseEntity)
+- void updateArcherGiGeeAttack(BaseEntity)
+- void updateThrowerGiGeeAttack(BaseEntity)
+- void createThrowerBomb(BaseEntity,String,double,double)
+# void prepareToUpdateAnimation(States,Animation)
+- void updateOneCombo(States,States,Animation)
+- void createNormalArrow()
+- void twoComboUpdateFrames(States,States,Animation)
+- void playAttackSoundCombo()
+- void checkFrameAttack(Animation)
+- void updateBowSpecialAttack(States,States,Animation)
+- void updateHoldRMB(States,States,Animation)
+- void updateReleaseRMB(States,Animation,ChargeArrow,int)
+- void successToChargeAttack(States,Animation,ChargeArrow,int)
+- void failToChargeAttack(States,Animation)
+- void createSpecialAttackCooldownTimer()
+- void updateBroadSwordSpecialAttack(States,States,Animation)
+- void jumpBroadSword(Animation)
+- void createBroadSwordLastAttack(States,Animation)
+- void updateDaggerSpecialAttack(States,States,Animation)
+- void createCritRateBuffTimer()
+}
+
+
+interface interfaces.Upgradable {
+~ boolean canUpgrade(Player)
+~ void upgrade(Player,Tier)
+}
+
+class entities.player.perks.BerserkPerk {
++ <<Create>> BerserkPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.TreasureHunterPerk {
++ {static} float chance
++ {static} boolean canRandom
++ <<Create>> TreasureHunterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void setCanRandomTreasure(boolean)
+}
+
+
+interface interfaces.Attackable {
+~ boolean canAttack(BaseEntity)
+~ void attack(Player,BaseScene,int)
+~ void isAttacked(BaseEntity,BaseScene,int)
+~ void hurt(BaseEntity,BaseScene)
+~ void dead(BaseEntity,BaseScene)
+}
+
+enum enums.States {
++  PLAYER_STAND_STILL
++  PLAYER_WALK
++  PLAYER_NORMAL_ATTACK
++  PLAYER_SPECIAL_ATTACK
++  PLAYER_DEAD
++  PLAYER_JUMP_UP
++  PLAYER_JUMP_DOWN
++  PLAYER_DASH
++  OBJECT
++  MONSTER_SPAWN
++  MONSTER_STAND_STILL
++  MONSTER_WALK
++  MONSTER_NORMAL_ATTACK
++  MONSTER_DEAD
++  BOSS_SKILL_ONE
++  BOSS_SKILL_TWO
++  BOSS_SKILL_THREE_STAND_STILL
++  BOSS_SKILL_THREE_WALK
++  BOSS_JUMP_UP
++  BOSS_JUMP_DOWN
+}
+
+class objects.CoinReward {
++ <<Create>> CoinReward(BaseEntity,double,double,FaceDirection)
++ void collect(Player)
+}
+
+class entities.player.classes.BroadSword {
++ <<Create>> BroadSword()
++ void setUniqueStatus()
+}
+
+class utils.HelperMethods {
+- {static} Random random
+- {static} SoundLoader PLAYER_WALK
+- {static} SoundLoader PLAYER_DASH
+- {static} SoundLoader PLAYER_JUMP1
+- {static} SoundLoader PLAYER_JUMP2
+- {static} SoundLoader PLAYER_COLLECT
+- {static} SoundLoader PLAYER_UPGRADE
+- {static} SoundLoader PLAYER_BEING_HIT
+- {static} SoundLoader PLAYER_DODGE
++ {static} SoundLoader PLAYER_BUY_SUCCESS
++ {static} SoundLoader PLAYER_BUY_FAIL
+- {static} SoundLoader PLAYER_BUY_MISS
+- {static} SoundLoader PLAYER_BRUH
+- {static} SoundLoader PLAYER_DEAD
+- {static} SoundLoader MONSTER_BEING_HIT
+- {static} SoundLoader MONSTER_DEAD
+- {static} SoundLoader MONSTER_DODGE
+- {static} SoundLoader BOSS_FIRE
+- {static} SoundLoader BOSS_STOMP_EFFECT
+- {static} SoundLoader DAGGER_COMBO_ATTACK1
+- {static} SoundLoader DAGGER_COMBO_ATTACK2
+- {static} SoundLoader BROADSWORD_ATTACK
+- {static} SoundLoader BROADSWORD_STOMP_EFFECT
+- {static} SoundLoader NORMAL_ARROW_ATTACK
+- {static} SoundLoader CHARGE_ARROW_CHARGE
+- {static} SoundLoader CHARGE_ARROW_ATTACK
+- {static} SoundLoader MISSILE_ATTACK
+- {static} SoundLoader THROWERBOMB_ATTACK
+- {static} SoundLoader KLEE_BOMB
+- {static} SoundLoader NUCLEAR_BOMB
+- {static} SoundLoader GET_HEAL
+- {static} SoundLoader MERCHANT_SELL
+- {static} SoundLoader PERKCHEST_GET
+- {static} SoundLoader BASEREWARD_GET
+- {static} SoundLoader DOOR_OPEN
++ {static} int randomInteger(int,int)
++ {static} float randomFloat(float,float)
++ {static} float randomChance()
++ {static} int randomIntegerUsingPercent(int,int)
++ {static} int finalValuePercent(int,int)
++ {static} float finalValuePercentFloat(float,int)
++ {static} int calculateActionAttack(BaseEntity,BaseEntity,boolean,int)
++ {static} int calculateReflectionAttack(int,BaseMonster)
++ {static} void removeFromUnobtain(Player,BasePerk)
++ {static} ArrayList<BasePerk> generateAllPerks(Player)
++ {static} Button createButton(String)
++ {static} Button createButton(String,Color,Color)
++ {static} Text createTextForInventory(String,int,Color,double,double)
++ {static} Text createText(String,int,Color)
++ {static} Text createText(String,int,Color,FontWeight)
++ {static} boolean canMoveHere(BaseEntity,double,double,double,double,int[][])
+- {static} boolean isSolid(BaseEntity,double,double,int[][])
++ {static} boolean canMoveHereForObject(double,double,double,double,int[][])
+- {static} boolean isSolidForObject(double,double,int[][])
++ {static} void spawnPlayer(Player,int[][])
++ {static} int getTypeOfTile(double,double,int[][])
++ {static} void spawnMonsters(int[][],BaseScene)
+- {static} void spawnMonster(Player,String,BaseScene,double,double)
++ {static} ArrayList<SoundLoader> loadEntitiesSound(BaseEntity)
++ {static} ArrayList<SoundLoader> loadObjectsSound(BaseObject)
++ {static} SoundLoader getSoundFromSoundList(ArrayList<SoundLoader>,String)
++ {static} String randomRoomType()
++ {static} void calculateNewHp(BaseEntity,int,int)
++ {static} int countMonstersNearby(Player,float,float)
++ {static} boolean hasPerk(Player,BasePerk,boolean)
++ {static} ArrayList<BasePerk> createPerkChoices(Player,ArrayList<BasePerk>,int)
+- {static} void addPerkToResult(BasePerk,ArrayList<BasePerk>)
++ {static} ArrayList<String> createDoorChoices(ArrayList<String>,int)
++ {static} void createColumns(GridPane,int[])
++ {static} void createRows(GridPane,int[])
++ {static} ArrayList<SoundLoader> getAllSounds()
++ {static} void addAndDeleteText(BaseEntity,BaseScene,Text)
++ {static} void addAndDeleteStageStatus(BaseScene,Text)
++ {static} void knockBack(BaseEntity,FaceDirection,BaseScene)
++ {static} void immuneAfterAttacked(BaseEntity)
++ {static} void resetAllScenes()
++ {static} void createSymbol(BaseScene,String,double,double,BasePerk)
++ {static} ImageView loadCoinUI()
+}
+
+
+class utils.PerkStatus {
++ {static} float PRICE_UPGRADE_PERCENT
++ {static} int PRICE_VARIATION
++ {static} int COMMON_PRICE
++ {static} int UNCOMMON_PRICE
++ {static} int RARE_PRICE
++ {static} float BERSERK_1_CRITERIA
++ {static} float BERSERK_2_1_CRITERIA
++ {static} float BERSERK_2_2_CRITERIA
++ {static} int BERSERK_1_ADDATK
++ {static} int BERSERK_2_1_ADDATK
++ {static} int BERSERK_2_2_ADDATK
++ {static} float DISCOUNT_NORMAL_FAILCHANCE
++ {static} float DISCOUNT_2_2_FAILCHANCE
++ {static} int DISCOUNT_1_DISCOUNT
++ {static} int DISCOUNT_2_1_DISCOUNT
++ {static} int DISCOUNT_2_2_DISCOUNT
++ {static} float EXTROVERT_TILES_X
++ {static} float EXTROVERT_TILES_Y
++ {static} int EXTROVERT_CRITERIA
++ {static} int EXTROVERT_1_ADDATKPERMONSTER
++ {static} int EXTROVERT_2_1_ADDATKPERMONSTER
++ {static} int EXTROVERT_2_2_ADDATKPERMONSTER
++ {static} int EXTROVERT_2_2_MINUSATKEXTRA
++ {static} int FATAL_1_ADDCRITDAMAGE
++ {static} int FATAL_2_1_ADDCRITDAMAGE
++ {static} int FATAL_2_2_ADDCRITDAMAGE
++ {static} int FATAL_2_2_MINUSCRITRATE
++ {static} int FORTIFY_1_ADDDAMAGEDECREASE
++ {static} int FORTIFY_2_1_ADDDAMAGEDECREASE
++ {static} int FORTIFY_2_2_ADDDAMAGEDECREASE
++ {static} int FORTIFY2_2_ADDATKDELAY
++ {static} float INTROVERT_TILES_X
++ {static} float INTROVERT_TILES_Y
++ {static} int INTROVERT_1_BASEADDATK
++ {static} int INTROVERT_1_MINUSADDATKPERMONSTER
++ {static} int INTROVERT_2_1_BASEADDATK
++ {static} int INTROVERT_2_1_MINUSADDATKPERMONSTER
++ {static} int INTROVERT_2_2_BASEADDATK
++ {static} int INTROVERT_2_2_MINUSADDATKPERMONSTER
++ {static} int JUKE_1_ADDEVADERATE
++ {static} int JUKE_2_1_ADDEVADERATE
++ {static} int JUKE_2_2_ADDEVADERATE
++ {static} int JUKE_2_2_MINUSDAMAGEDECREASE
++ {static} float LUCKYMAN_NORMAL_TIERCHANCE
++ {static} float LUCKYMAN_2_1_TIERCHANCE
++ {static} float LUCKYMAN_2_2_DROPCHANCE
++ {static} float PERFECTION_1_CRITERIA
++ {static} float PERFECTION_2_1_CRITERIA
++ {static} float PERFECTION_2_2_CRITERIA
++ {static} int PERFECTION_1_ADDATK
++ {static} int PERFECTION_2_1_ADDATK
++ {static} int PERFECTION_2_2_ADDATK
++ {static} int PRECISION_1_ADDCRITRATE
++ {static} int PRECISION_2_1_ADDCRITRATE
++ {static} int PRECISION_2_2_ADDCRITRATE
++ {static} int PRECISION_2_2_MINUSCRITDAMAGE
++ {static} int RAPID_NORMAL_ADDATKSPEED
++ {static} int RAPID_2_1_ADDATKSPEED
++ {static} int RAPID_2_2_ADDMOVEMENTSPEED
++ {static} int REINFORCED_1_ADDDEF
++ {static} int REINFORCED_2_1_ADDDEF
++ {static} int REINFORCED_2_2_ADDDEF
++ {static} int REINFORCED_2_2_MINUSMOVEMENTSPEED
++ {static} float THORN_NORMAL_REFLECTCHANCE
++ {static} float THORN_2_1_REFLECTCHANCE
++ {static} int THORN_2_2_SLOWTIME
++ {static} int THORN_2_2_SLOW
++ {static} float TREASURE_NORMAL_REWARDCHANCE
++ {static} float TREASURE_2_1_REWARDCHANCE
++ {static} float TREASURE_2_2_REWARDMULTIPLIER
++ {static} int UNDEAD_NORMAL_ACTIVATION
++ {static} int UNDEAD_2_1_ACTIVATION
++ {static} int UNDEAD_NORMAL_COOLDOWN
++ {static} int UNDEAD_2_2_COOLDOWN
++ {static} int UNDEAD_2_1_ADDATK
++ {static} int UNDEAD_2_1_ADDATKSPEED
++ {static} float VAMP_NORMAL_DRAINCHANCE
++ {static} float VAMP_2_2_DRAINCHANCE
++ {static} float VAMP_NORMAL_DRAINPERHIT
++ {static} float VAMP_2_1_DRAINPERHIT
+}
+
+class utils.PlayerStatus {
++ {static} int START_COINS
++ {static} int MAX_PERK_OBTAIN
++ {static} int LOW_HP
++ {static} int HIGH_HP
++ {static} int LOW_ATK
++ {static} int HIGH_ATK
++ {static} int LOW_DEF
++ {static} int HIGH_DEF
++ {static} float LOW_MOVEMENT_SPEED
++ {static} float MEDIUM_MOVEMENT_SPEED
++ {static} float HIGH_MOVEMENT_SPEED
++ {static} float DAGGER_NORMAL_ATTACK_SPEED_MULTIPLIER
++ {static} float DAGGER_SPECIAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BOW_NORMAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BOW_SPECIAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BROADSWORD_NORMAL_ATTACK_SPEED_MULTIPLIER
++ {static} float BROADSWORD_SPECIAL_ATTACK_SPEED_MULTIPLIER
++ {static} int LOW_EVADE_RATE
++ {static} int HIGH_EVADE_RATE
++ {static} int LOW_CRIT_RATE
++ {static} int HIGH_CRIT_RATE
++ {static} int LOW_CRIT_DAMAGE
++ {static} int HIGH_CRIT_DAMAGE
++ {static} int NORMAL_MAX_DASH
++ {static} int LOW_MAX_DASH
++ {static} float DEFAULT_DASH_DISTANCE
++ {static} int DEFAULT_DASH_TIME
++ {static} float DASH_COOLDOWN
++ {static} float TIME_CAN_SECOND_ATTACK
++ {static} float PLAYER_DAMAGE_COOLDOWN
+}
+
+class objects.Merchant {
+- int startX
+- int startY
+- boolean isSold
+- int price
++ <<Create>> Merchant(BaseEntity,double,double,FaceDirection)
++ boolean canSell(Player)
++ void sell(Player,BaseScene)
++ int calculateDiscountPrice(Player)
+- void generateNewPrice()
+- void removePotion(Player,BaseScene)
++ boolean isSold()
++ void setSold(boolean)
++ int getPrice()
++ void setPrice(int)
+}
+
+
+class entities.player.perks.PerfectionistPerk {
++ <<Create>> PerfectionistPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class utils.AnimationStatus {
++ {static} double SPAWN_X
++ {static} double SPAWN_Y
++ {static} int START_X
++ {static} int START_Y
++ {static} int DEFAULT_ANIMATION_WIDTH
++ {static} int DEFAULT_ANIMATION_HEIGHT
++ {static} int GAP_WIDTH
++ {static} int GAP_HEIGHT
++ {static} int DEFAULT_HITBOX_WIDTH
++ {static} int DEFAULT_HITBOX_HEIGHT
++ {static} int DEFAULT_HITBOX_X_OFFSET
++ {static} int DEFAULT_HITBOX_Y_OFFSET
++ {static} float SCALE
++ {static} int PIXEL_PER_TILE
++ {static} int MOVE_FRAME
++ {static} int ANIMATION_FRAME
++ {static} float MOVE_PER_FRAME
++ {static} float JUMP_HEIGHT
++ {static} float GRAVITY
++ {static} float GRAVITY_FOR_OBJECT
++ {static} double JUMP_VELOCITY
++ {static} int JUMP_FRAME
++ {static} ArrayList<String> DASH_AND_JUMP_WHEN_DEATH_MONSTER
++ {static} int ANONYMOUS_STAND_STILL_FRAMES
++ {static} int ANONYMOUS_WALK_FRAMES
++ {static} int BOW_STAND_STILL_FRAMES
++ {static} int BOW_WALK_FRAMES
++ {static} int BOW_NORMAL_ATTACK_FRAMES
++ {static} int BOW_SPECIAL_ATTACK_FRAMES
++ {static} int BOW_DASH_FRAME
++ {static} int BOW_DEAD_FRAMES
++ {static} int BOW_SPECIAL_ATTACK_CHARGE_TIME
++ {static} float BOW_SPECIAL_ATTACK_COOLDOWN
++ {static} int BOW_SPECIAL_ATTACK_DAMAGE
++ {static} int BOW_SPECIAL_ATTACK_DAMAGE_INCREASE_PER_FRAME
++ {static} int BOW_SPECIAL_ATTACK_MAX_DAMAGE_INCREASE
++ {static} int BROADSWORD_STAND_STILL_FRAMES
++ {static} int BROADSWORD_WALK_FRAMES
++ {static} int BROADSWORD_NORMAL_ATTACK_FRAMES
++ {static} int BROADSWORD_SPECIAL_ATTACK_FRAMES
++ {static} int BROADSWORD_DASH_FRAMES
++ {static} int BROADSWORD_DEAD_FRAMES
++ {static} int BROADSWORD_ANIMATION_WIDTH
++ {static} int BROADSWORD_ANIMATION_HEIGHT
++ {static} int BROADSWORD_HITBOX_WIDTH
++ {static} int BROADSWORD_HITBOX_HEIGHT
++ {static} int BROADSWORD_HITBOX_X_OFFSET
++ {static} int BROADSWORD_HITBOX_Y_OFFSET
++ {static} int BROADSWORD_SPECIAL_ATTACK_JUMP_HEIGHT
++ {static} float BROADSWORD_SPECIAL_ATTACK_COOLDOWN
++ {static} int BROADSWORD_SPECIAL_ATTACK_DAMAGE
++ {static} int DAGGER_STAND_STILL_FRAMES
++ {static} int DAGGER_WALK_FRAMES
++ {static} int DAGGER_NORMAL_ATTACK_FRAMES
++ {static} int DAGGER_SPECIAL_ATTACK_FRAMES
++ {static} int DAGGER_DASH_FRAMES
++ {static} int DAGGER_DEAD_FRAMES
++ {static} float DAGGER_SPECIAL_ATTACK_WARP_DISTANCE
++ {static} float DAGGER_SPECIAL_ATTACK_COOLDOWN
++ {static} int DAGGER_SPECIAL_ATTACK_DAMAGE
++ {static} int DAGGER_SPECIAL_ATTACK_CRIT_CHANCE
++ {static} float DAGGER_SPECIAL_ATTACK_CRIT_BUFF_DURATION
++ {static} int SPAWN_FRAMES
++ {static} int PEASANTGIGEE_STAND_STILL_FRAMES
++ {static} int PEASANTGIGEE_WALK_FRAMES
++ {static} int PEASANTGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int PEASANTGIGEE_DEAD_FRAMES
++ {static} int KLEEGIGEE_STAND_STILL_FRAMES
++ {static} int KLEEGIGEE_WALK_FRAMES
++ {static} int KLEEGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int KLEEGIGEE_DEAD_FRAMES
++ {static} int KLEEGIGEE_SPEED_INCREASE
++ {static} float KLEEGIGEE_BOMB_TIME
++ {static} int ARCHERGIGEE_STAND_STILL_FRAMES
++ {static} int ARCHERGIGEE_WALK_FRAMES
++ {static} int ARCHERGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int ARCHERGIGEE_DEAD_FRAMES
++ {static} int THROWERGIGEE_STAND_STILL_FRAMES
++ {static} int THROWERGIGEE_WALK_FRAMES
++ {static} int THROWERGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int THROWERGIGEE_DEAD_FRAMES
++ {static} int THROWERGIGEE_HITBOX_WIDTH
++ {static} int THROWERGIGEE_HITBOX_X_OFFSET
++ {static} float THROWERGIGEE_THROW_TIME
++ {static} int ICETHROWERGIGEE_STAND_STILL_FRAMES
++ {static} int ICETHROWERGIGEE_WALK_FRAMES
++ {static} int ICETHROWERGIGEE_NORMAL_ATTACK_FRAMES
++ {static} int ICETHROWERGIGEE_DEAD_FRAMES
++ {static} float ICETHROWERGIGEE_THROW_TIME
++ {static} int ICETHROWERGIGEE_SLOW_AMOUNT
++ {static} int ICETHROWERGIGEE_MAX_SLOW_AMOUNT
++ {static} int ICETHROWERGIGEE_SLOW_DURATION
++ {static} int BIGBOY_STAND_STILL_FRAMES
++ {static} int BIGBOY_WALK_FRAMES
++ {static} int BIGBOY_SKILL_ONE_FRAMES
++ {static} ArrayList<Integer> BIGBOY_SKILL_ONE_FRAMES_HOLD
++ {static} float BIGBOY_SKILL_ONE_ANIMATION_SPEED
++ {static} int BIGBOY_SKILL_TWO_FRAMES
++ {static} ArrayList<Integer> BIGBOY_SKILL_TWO_FRAMES_HOLD
++ {static} float BIGBOY_SKILL_TWO_ANIMATION_SPEED
++ {static} int BIGBOY_SKILL_THREE_STAND_FRAMES
++ {static} int BIGBOY_SKILL_THREE_WALK_FRAMES
++ {static} int BIGBOY_DEAD_FRAMES
++ {static} int BIGBOY_ANIMATION_WIDTH
++ {static} int BIGBOY_ANIMATION_HEIGHT
++ {static} int BIGBOY_HITBOX_WIDTH
++ {static} int BIGBOY_HITBOX_HEIGHT
++ {static} int BIGBOY_HITBOX_X_OFFSET
++ {static} int BIGBOY_HITBOX_Y_OFFSET
+}
+
+class entities.player.perks.FortifyPerk {
++ <<Create>> FortifyPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.perks.RapidFirePerk {
++ <<Create>> RapidFirePerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class application.Main {
++ {static} void main(String[])
++ void start(Stage)
+}
+
+interface interfaces.Moveable {
+~ void move(BaseScene)
+}
+
+class entities.player.perks.JukeMasterPerk {
++ <<Create>> JukeMasterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class objects.Door {
+- String doorType
+- boolean open
++ <<Create>> Door(BaseEntity,double,double,FaceDirection,String)
++ String getDoorType()
++ void openDoor()
++ boolean isOpen()
++ void setOpen(boolean)
+}
+
+
+class entities.player.perks.ThornPerk {
++ <<Create>> ThornPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void slow(BaseMonster)
+}
+
+enum enums.FaceDirection {
++  LEFT
++  RIGHT
++ {static} FaceDirection randomStartDirection()
++ {static} void switchDirection(BaseMonster)
+}
+
+
+class objects.StompEffect {
++ <<Create>> StompEffect(BaseEntity,double,double,FaceDirection,BaseScene)
+}
+
+class entities.player.classes.Anonymous {
++ <<Create>> Anonymous()
++ void setUniqueStatus()
+}
+
+class entities.player.perks.ExtrovertPerk {
+- {static} float IN_RANGE_TILES_X
+- {static} float IN_RANGE_TILES_Y
+- {static} int monsterCountBefore
+- {static} int monsterCountAfter
++ <<Create>> ExtrovertPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+
+class threads.BotLogicThread {
+- {static} BaseScene scene
+- {static} Player player
+- boolean isRunning
+- long delayTime
+- {static} boolean isLaunchWave
+- {static} int currentWaveNumber
+- {static} int maxWaveNumber
+- {static} boolean isWaveClear
+- {static} boolean hasCreatedText
++ <<Create>> BotLogicThread(BaseScene)
++ void stopThread()
++ void run()
+- void checkWave()
+- void launchWave()
+- {static} void createRewardZone(FightScene)
+- {static} void drawRewardArea(FightScene)
++ {static} void addWave()
+- void checkCooldownAttack(BaseMonster)
+- void checkBossCooldownAttack(BaseBoss)
+- void dropFromFloatingFloor(BaseBoss)
+- void randomUseSkill(BaseBoss)
+- void chooseSkill(BaseBoss)
+- void checkGiGeeCooldownAttack(BaseGiGee)
+- void createActionIdle(BaseMonster)
+- void standIdle(BaseMonster)
+- void walkIdle(BaseMonster)
++ {static} void setWaveClear(boolean)
++ {static} void setHasCreatedText(boolean)
++ {static} int getCurrentWaveNumber()
++ {static} int getMaxWaveNumber()
++ {static} void setCurrentWaveNumber(int)
++ {static} void setMaxWaveNumber(int)
+}
+
+
+class entities.player.perks.ReinforcedPerk {
++ <<Create>> ReinforcedPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class utils.SoundLoader {
+- String name
+- MediaPlayer mediaPlayer
+- AudioClip audioClip
+- {static} ArrayList<String> BACKGROUNDS
++ boolean isPlay
++ <<Create>> SoundLoader(String,String)
++ void play()
++ void stop()
++ String getName()
++ MediaPlayer getMediaPlayer()
+}
+
+
+class scenes.FightScene {
+- {static} FightScene instance
+- {static} int numberOfFightScene
+- {static} SoundLoader fightSceneSong
+- String roomType
++ <<Create>> FightScene(Stage,Player,String)
+- SoundLoader getRandomFightSceneSong()
++ {static} FightScene getFightScene(Stage,Player,String)
++ {static} void resetFightScene()
++ String getRoomType()
++ void setRoomType(String)
++ {static} int getNumberOfFightScene()
++ {static} void setNumberOfFightScene(int)
++ {static} void setFightSceneSong(SoundLoader)
+}
+
+
+abstract class entities.bases.BasePerk {
+- Tier tier
+- {static} Player player
+- int originalPrice
+- int newPrice
+- int upgradeCost
+- Rarity rarity
+- boolean hasActivated
+- String UI_STRING
+- String ICON_STRING
++ <<Create>> BasePerk(Player,Tier,Rarity)
++ boolean canSell(Player)
++ void sell(Player,BaseScene)
++ void collect(Player)
++ boolean canUpgrade(Player)
++ void upgrade(Player,Tier)
++ {abstract}void setStartValues(Tier)
++ String toString()
++ Tier getTier()
++ void setTier(Tier)
++ int getOriginalPrice()
++ void setOriginalPrice(Rarity)
++ int getNewPrice()
++ void setNewPrice(int)
++ boolean hasActivated()
++ void setHasActivated(boolean)
++ String getIconString()
++ ImageView getImageAtRowColumn(Tier,int)
++ Rarity getRarity()
++ void setRarity(Rarity)
++ {static} Player getPlayer()
++ {static} void setPlayer(Player)
++ int getUpgradeCost()
++ void setUpgradeCost(int)
+}
+
+
+class entities.player.perks.FatalAttackPerk {
++ <<Create>> FatalAttackPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class scenes.DeathScene {
+- {static} DeathScene instance
++ <<Create>> DeathScene(Stage)
++ {static} DeathScene getDeathScene(Stage)
+}
+
+
+class entities.player.perks.PrecisionStrikePerk {
++ <<Create>> PrecisionStrikePerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class utils.ObjectStatus {
++ {static} int NOT_MOVE
++ {static} int NORMAL_ARROW_WIDTH
++ {static} int NORMAL_ARROW_HEIGHT
++ {static} int NORMAL_ARROW_SPEED
++ {static} int CHARGE_ARROW_WIDTH
++ {static} int CHARGE_ARROW_HEIGHT
++ {static} int CHARGE_ARROW_SPEED
++ {static} int MISSILE_WIDTH
++ {static} int MISSILE_HEIGHT
++ {static} int MISSILE_SPEED
++ {static} int HP_DROP_LARGE_WIDTH
++ {static} int HP_DROP_LARGE_HEIGHT
++ {static} float HP_DROP_LARGE_HEAL
++ {static} int HP_DROP_SMALL_WIDTH
++ {static} int HP_DROP_SMALL_HEIGHT
++ {static} float HP_DROP_SMALL_HEAL
++ {static} int SYMBOL_WIDTH
++ {static} int SYMBOL_HEIGHT
++ {static} int PERK_SYMBOL_WIDTH
++ {static} int PERK_SYMBOL_HEIGHT
++ {static} int COIN_REWARD_WIDTH
++ {static} int COIN_REWARD_HEIGHT
++ {static} int COIN_REWARD
++ {static} int HP_REWARD_WIDTH
++ {static} int HP_REWARD_HEIGHT
++ {static} int HP_REWARD_MAX_HP_INCREASE
++ {static} int HP_REWARD_HEAL
++ {static} int PERK_CHEST_REWARD_WIDTH
++ {static} int PERK_CHEST_REWARD_HEIGHT
++ {static} int DOOR_WIDTH
++ {static} int DOOR_HEIGHT
++ {static} int KLEE_BOMB_WIDTH
++ {static} int KLEE_BOMB_HEIGHT
++ {static} int KLEE_BOMB_HITBOX_X_OFFSET
++ {static} int KLEE_BOMB_HITBOX_Y_OFFSET
++ {static} int KLEE_BOMB_HITBOX_WIDTH
++ {static} int KLEE_BOMB_HITBOX_HEIGHT
++ {static} int BOMB_FRAMES
++ {static} int KLEE_BOMB_FRAMES_PER_SECOND
++ {static} int NUCLEAR_BOMB_WIDTH
++ {static} int NUCLEAR_BOMB_HEIGHT
++ {static} int NUCLEAR_BOMB_HITBOX_X_OFFSET
++ {static} int NUCLEAR_BOMB_HITBOX_Y_OFFSET
++ {static} int NUCLEAR_BOMB_HITBOX_WIDTH
++ {static} int NUCLEAR_BOMB_HITBOX_HEIGHT
++ {static} int NUCLEAR_BOMB_FRAMES_PER_SECOND
++ {static} int THROWER_BOMB_WIDTH
++ {static} int THROWER_BOMB_HEIGHT
++ {static} int THROWER_BOMB_ACTIVATE_WIDTH
++ {static} int THROWER_BOMB_ACTIVATE_HEIGHT
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_X_OFFSET
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_Y_OFFSET
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_WIDTH
++ {static} int THROWER_BOMB_ACTIVATE_HITBOX_HEIGHT
++ {static} int THROWER_BOMB_ACTIVATE_FRAMES
++ {static} int THROWER_BOMB_ACTIVATE_FRAMES_PER_SECOND
++ {static} int THROWER_ICE_BOMB_ACTIVATE_WIDTH
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HEIGHT
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_X_OFFSET
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_Y_OFFSET
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_WIDTH
++ {static} int THROWER_ICE_BOMB_ACTIVATE_HITBOX_HEIGHT
++ {static} int THROWER_ICE_BOMB_ACTIVATE_FRAMES
++ {static} int THROWER_ICE_BOMB_ACTIVATE_FRAMES_PER_SECOND
++ {static} int STOMP_EFFECT_WIDTH
++ {static} int STOMP_EFFECT_HEIGHT
++ {static} int STOMP_EFFECT_HITBOX_X_OFFSET
++ {static} int STOMP_EFFECT_HITBOX_Y_OFFSET
++ {static} int STOMP_EFFECT_HITBOX_WIDTH
++ {static} int STOMP_EFFECT_HITBOX_HEIGHT
++ {static} int STOMP_EFFECT_FRAMES
++ {static} int STOMP_EFFECT_FRAMES_PER_SECOND
++ {static} int SHOCK_WAVE_WIDTH
++ {static} int SHOCK_WAVE_HEIGHT
++ {static} int SHOCK_WAVE_HITBOX_X_OFFSET
++ {static} int SHOCK_WAVE_HITBOX_Y_OFFSET
++ {static} int SHOCK_WAVE_HITBOX_WIDTH
++ {static} int SHOCK_WAVE_HITBOX_HEIGHT
++ {static} int SHOCK_WAVE_FRAMES
++ {static} int SHOCK_WAVE_FRAMES_PER_SECOND
++ {static} int SHOCK_WAVE_EXTRA_DAMAGE
++ {static} int FIRE_WIDTH
++ {static} int FIRE_HEIGHT
++ {static} int FIRE_HITBOX_X_OFFSET
++ {static} int FIRE_HITBOX_Y_OFFSET
++ {static} int FIRE_HITBOX_WIDTH
++ {static} int FIRE_HITBOX_HEIGHT
++ {static} int FIRE_FRAMES
++ {static} int FIRE_FRAMES_PER_SECOND
++ {static} int FIRE_EXTRA_DAMAGE
++ {static} int FIRE_TIME
++ {static} int VENDING_MACHINE_WIDTH
++ {static} int VENDING_MACHINE_HEIGHT
++ {static} int VENDING_MACHINE_FRAMES
++ {static} int VENDING_MACHINE_FRAMES_PER_SECOND
++ {static} int SHROOM_WIDTH
++ {static} int SHROOM_HEIGHT
++ {static} int SHROOM_FRAMES
++ {static} int SHROOM_FRAMES_PER_SECOND
++ {static} int MERCHANT_WIDTH
++ {static} int MERCHANT_HEIGHT
++ {static} int MERCHANT_HEAL_PERCENT
++ {static} int MIN_POTION_PRICE
++ {static} int MAX_POTION_PRICE
++ {static} ArrayList<Integer> BLACK_SMITH_WIDTH
++ {static} ArrayList<Integer> BLACK_SMITH_HEIGHT
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_X_OFFSET
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_Y_OFFSET
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_WIDTH
++ {static} ArrayList<Integer> BLACK_SMITH_HITBOX_HEIGHT
++ {static} ArrayList<Integer> BLACK_SMITH_FRAMES
++ {static} ArrayList<Integer> BLACK_SMITH_FRAMES_PER_SECOND
++ {static} ArrayList<Integer> BLACK_SMITH_PAUSE_TIME
+}
+
+class objects.BlackSmith {
+- String type
+- boolean isStop
++ <<Create>> BlackSmith(BaseEntity,double,double,FaceDirection,String)
+- void runAnimation(int)
++ void disappear(BaseScene)
++ String getType()
++ void setType(String)
++ boolean isStop()
++ void setStop(boolean)
+}
+
+
+class objects.PerkChestReward {
+- int startX
+- int startY
+- boolean isOpen
++ <<Create>> PerkChestReward(BaseEntity,double,double,FaceDirection)
++ void openChest()
++ boolean isOpen()
++ void setOpen(boolean)
+}
+
+
+class threads.MovingThread {
+- BaseScene scene
+- boolean isRunning
+- Player player
++ <<Create>> MovingThread(BaseScene)
++ void stopThread()
++ void run()
+- void moveAllMonsters()
+- void moveAllObjects()
+- void removeObjects(ArrayList<BaseObject>,ArrayList<Animation>)
+}
+
+
+class scenes.OptionScene {
+- {static} OptionScene instances
+- {static} Slider soundSlider
++ <<Create>> OptionScene(Stage)
++ {static} OptionScene getOptionScene(Stage)
+}
+
+
+class utils.MonsterStatus {
++ {static} float SPAWN_TIME
++ {static} int MIN_WALKTIME
++ {static} int MAX_WALKTIME
++ {static} int MONSTER_DROP_VARIATION
++ {static} float TURNING_DELAY
++ {static} float KLEE_TURNING_DELAY
++ {static} float LOW_MOVEMENT_SPEED
++ {static} float MEDIUM_MOVEMENT_SPEED
++ {static} float HIGH_MOVEMENT_SPEED
++ {static} int LOW_EVADE_RATE
++ {static} int MEDIUM_EVADE_RATE
++ {static} float SHORT_VISION
++ {static} float MEDIUM_VISION
++ {static} float CLOSED_RANGE
++ {static} float MID_RANGE
++ {static} float LONG_RANGE
++ {static} float GIGEE_DROP_RATE
++ {static} float BOSS_DROP_RATE
++ {static} int COIN_DROP_GIGEE
++ {static} int COIN_DROP_BOSS
++ {static} int LOW_KNOCKBACK_CHANCE
++ {static} int HIGH_KNOCKBACK_CHANCE
++ {static} float LOW_KNOCKBACK_DISTANCE
++ {static} float MEDIUM_KNOCKBACK_DISTANCE
++ {static} float HIGH_KNOCKBACK_DISTANCE
++ {static} int PEASANT_HP
++ {static} int PEASANT_ATK
++ {static} int PEASANT_DEF
++ {static} float PEASANT_ATK_DELAY
++ {static} int KLEE_HP
++ {static} int KLEE_ATK
++ {static} int KLEE_DEF
++ {static} float KLEE_ATK_DELAY
++ {static} int ARCHER_HP
++ {static} int ARCHER_ATK
++ {static} int ARCHER_DEF
++ {static} float ARCHER_ATK_DELAY
++ {static} int THROWER_HP
++ {static} int THROWER_ATK
++ {static} int THROWER_DEF
++ {static} float THROWER_ATK_DELAY
++ {static} int ICE_THROWER_ATK
++ {static} int BIGBOY_HP
++ {static} int BIGBOY_ATK
++ {static} int BIGBOY_DEF
++ {static} float BIGBOY_SKILL_ONE_COOLDOWN
++ {static} float BIGBOY_COOLDOWN_AFTER_SKILL_ONE
++ {static} float BIGBOY_SKILL_TWO_COOLDOWN
++ {static} float BIGBOY_COOLDOWN_AFTER_SKILL_TWO
++ {static} float BIGBOY_SKILL_THREE_COOLDOWN
++ {static} float BIGBOY_COOLDOWN_AFTER_SKILL_THREE
++ {static} float BIGBOY_SKILL_ONE_ATTACK_RANGE
++ {static} float BIGBOY_SKILL_TWO_ATTACK_RANGE
++ {static} float BIGBOY_SKILL_TWO_JUMP_TIME
++ {static} float BIGBOY_SKILL_TWO_MAX_JUMP_DISTANCE
++ {static} int BIGBOY_SKILL_TWO_NUMBERS_OF_SHOCKWAVE
++ {static} float BIGBOY_SKILL_THREE_ATTACK_RANGE
++ {static} float BIGBOY_SKILL_THREEE_MIN_ATTACK_RANGE
++ {static} float BIGBOY_NUCLEAR_TIME
+}
+
+class entities.monsters.KleeGiGee {
++ <<Create>> KleeGiGee(double,double)
++ void setUniqueStatus(double,double)
++ void activateBomb(BaseScene)
+}
+
+enum enums.Rarity {
++  COMMON
++  UNCOMMON
++  RARE
+}
+
+enum enums.Tier {
++  TIER1
++  TIER2_1
++  TIER2_2
+}
+
+class objects.HPDropSmall {
++ <<Create>> HPDropSmall(BaseEntity,double,double,FaceDirection)
+}
+
+class entities.monsters.IceThrowerGiGee {
++ <<Create>> IceThrowerGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+interface interfaces.Tradable {
+~ boolean canSell(Player)
+~ void sell(Player,BaseScene)
+}
+
+class scenes.ClassSelectionScene {
+- {static} ClassSelectionScene instance
++ <<Create>> ClassSelectionScene(Stage)
+- void createAllClassSymbols()
+- void createVendingMachine()
++ {static} ClassSelectionScene getClassSelectionScene(Stage)
++ {static} void resetClassSelectionScene()
+}
+
+
+class entities.player.perks.VampirismPerk {
+- {static} boolean canGainedHP
+- {static} float vampirismChance
++ <<Create>> VampirismPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} void activateVampirism()
++ {static} void setCanGainedHP(boolean)
+}
+
+
+abstract class objects.BaseObject {
+- Animation animation
+- HitBox hitBox
+- float speed
+- double posX
+- double posY
+- FaceDirection faceDirection
+- String imgString
+- int height
+- int width
+- {static} ArrayList<String> FROM_PLAYER
+- boolean willRemove
+- double distance
+- BaseEntity owner
+- {static} ArrayList<String> GIF_CLASS
+- Group popUp
+- ArrayList<SoundLoader> soundList
++ <<Create>> BaseObject(BaseEntity,double,double,FaceDirection)
++ void move(BaseScene)
+- void checkHitTile(double,BaseScene)
+- void moveObject(double)
+- void checkHitMonster(BaseScene)
+- void checkHitPlayer(BaseScene)
+- void makeDamage(Player,BaseScene)
+- void makeThrowerBombDamage(Player,BaseScene)
+- void applyIceThrowerSlow(Player)
+- void setSlowTimer(Player,int,int)
+- void heal(Player)
+- void activateSuperJump(Player,BaseScene)
+- void moveInsideInteractObject(BaseScene)
+- void moveOutInteractObject(BaseScene)
+- void checkFall(BaseScene)
+- void jump(BaseScene)
+- void createMerchantPopUp(Merchant,BaseScene)
+- void removePopUp(BaseScene)
+- void addClassSymbolPopUp(Symbol,BaseScene)
+- void createClassDetail(Symbol)
+- void addPerkSymbolPopUp(BasePerk,BaseScene)
+- void createPotionPrice(Merchant)
+- void createPerkPrice(BasePerk)
+- void createPerkDetail(BasePerk)
+- boolean isHitEntity(BaseEntity)
+- boolean checkEntityHitbox(double,BaseEntity)
+# void runOneTimeAnimation(int,int,BaseScene,boolean)
++ Animation getAnimation()
++ void setAnimation(Animation)
++ float getSpeed()
++ void setSpeed(float)
++ double getPosX()
++ void setPosX(double)
++ double getPosY()
++ void setPosY(double)
++ FaceDirection getFaceDirection()
++ void setFaceDirection(FaceDirection)
++ String getImgString()
++ void setImgString(String)
++ HitBox getHitBox()
++ void setHitBox(HitBox)
++ int getHeight()
++ void setHeight(int)
++ int getWidth()
++ void setWidth(int)
++ boolean willRemove()
++ void setWillRemove(boolean)
++ double getDistance()
++ void setDistance(double)
++ BaseEntity getOwner()
++ void setOwner(BaseEntity)
++ Group getPopUp()
++ ArrayList<SoundLoader> getSoundList()
++ void setSoundList(ArrayList<SoundLoader>)
++ void setCanIgnoreTile(boolean)
++ void setCanFall(boolean)
++ boolean isDamageDealt()
++ void setDamageDealt(boolean)
++ boolean canInteract()
++ void setCanInteract(boolean)
+}
+
+
+class objects.Symbol {
+- ArrayList<String> CLASSLIST
+- String symbolType
+- String popUpString
+- BasePerk perk
++ <<Create>> Symbol(BaseEntity,double,double,FaceDirection,String,BasePerk)
++ String getSymbolType()
++ void setSymbolType(String)
++ BasePerk getPerk()
++ void setPerk(BasePerk)
++ String getPopUpString()
++ void setPopUpString(String)
+}
+
+
+class entities.monsters.BigBoy {
+- double jumpDistance
++ <<Create>> BigBoy(double,double)
++ void setUniqueStatus(double,double)
++ void activateNuclear(BaseScene)
++ double getJumpDistance()
++ void setJumpDistance(double)
+}
+
+
+class entities.monsters.ArcherGiGee {
++ <<Create>> ArcherGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+class entities.player.Player {
+- {static} Player instances
+- BaseClass playerClass
+- float baseAttackSpeed
+- int addAttackSpeed
+- int critRate
+- int critDamage
+- int coins
+- String uiString
+- String inventoryUIString
+- int specialAttackFrames
+- int dashFrames
+- ArrayList<BasePerk> obtainPerks
+- ArrayList<BasePerk> notObtainPerks
+- ArrayList<BaseMonster> monstersInStage
+- ArrayList<BaseObject> objectsInStage
+- ArrayList<Integer> frameMakeDamageSpecialAttack
+- int attackCombo
+- float timeSinceLastAttack
+- float timeCanSecondAttack
+- boolean isSecondAttack
+- boolean canInteract
+- BaseObject objectThatInteractWith
+- int remainingDash
+- int maxDash
+- float dashDistance
+- int addDashDistance
+- int dashTime
+- boolean canDash
+- float specialAttackCooldown
+- boolean isSpecialAttackInCooldown
+- boolean isTreasureHunterActivate
++ <<Create>> Player()
++ <<Create>> Player(BaseClass)
++ <<Create>> Player(BaseClass,double,double)
+- void setFramesFromClass(BaseClass)
+- void setStatsFromClass(BaseClass)
++ void setCommonStatus()
++ void setUniqueStatus(double,double)
++ void move(BaseScene)
+- void moveBorderYAxis(BaseScene,double)
+- void checkStateForJump()
+- void jump(BaseScene,double,double,double,double,double)
+- void checkFall(BaseScene,double,double,double,double)
+- void moveRight(BaseScene,double,double,double,double,double,double)
+- void moveLeft(BaseScene,double,double,double,double,double,double)
+- void actionForRestScene(BaseScene)
+- void actionForEmptyBossScene(BaseScene)
+- void actionForMarketScene(BaseScene)
+- void actionForClassSelectionScene(BaseScene)
++ boolean canWarpToNearestMonster()
++ void warpToNearestMonster(BaseScene)
+- void moveToMonster(BaseScene,double,double)
++ boolean canAttack(BaseEntity)
++ void attack(Player,BaseScene,int)
++ void isAttacked(BaseEntity,BaseScene,int)
++ void hurt(BaseEntity,BaseScene)
++ void dead(BaseEntity,BaseScene)
+- void reflect(BaseMonster,BaseScene)
+- boolean isNearBorderLeft()
+- boolean isNearBorderRight()
+- void checkDash(BaseScene)
++ void dash(double,int,FaceDirection,BaseScene)
++ {static} void resetPlayer()
++ {static} Player getPlayer()
++ ArrayList<BasePerk> getObtainPerks()
++ ArrayList<BaseMonster> getMonstersInStage()
++ ArrayList<BaseObject> getObjectsInStage()
++ float getBaseAttackSpeed()
++ void setBaseAttackSpeed(float)
++ int getCritRate()
++ void setCritRate(int)
++ int getCritDamage()
++ void setCritDamage(int)
++ BaseClass getPlayerClass()
++ void setPlayerClass(BaseClass)
++ int getCoins()
++ void setCoins(int)
++ int getAddAttackSpeed()
++ void setAddAttackSpeed(int)
++ ArrayList<BasePerk> getNotObtainPerks()
++ int getSpecialAttackFrames()
++ void setSpecialAttackFrames(int)
++ int getAttackCombo()
++ void setAttackCombo(int)
++ float getTimeSinceLastAttack()
++ void setTimeSinceLastAttack(float)
++ float getTimeCanSecondAttack()
++ void setTimeCanSecondAttack(float)
++ boolean isSecondAttack()
++ void setSecondAttack(boolean)
++ String getUiString()
++ void setUiString(String)
++ String getInventoryUIString()
++ void setInventoryUIString(String)
++ boolean canInteract()
++ void setCanInteract(boolean)
++ BaseObject getObjectThatInteractWith()
++ void setObjectThatInteractWith(BaseObject)
++ int getRemainingDash()
++ void setRemainingDash(int)
++ int getMaxDash()
++ void setMaxDash(int)
++ float getDashDistance()
++ void setDashDistance(float)
++ boolean canDash()
++ void setCanDash(boolean)
++ int getDashFrames()
++ void setDashFrames(int)
++ ArrayList<Integer> getFrameMakeDamageSpecialAttack()
++ void setFrameMakeDamageSpecialAttack(ArrayList<Integer>)
++ int getDashTime()
++ void setDashTime(int)
++ float getSpecialAttackCooldown()
++ void setSpecialAttackCooldown(float)
++ boolean isSpecialAttackInCooldown()
++ void setSpecialAttackInCooldown(boolean)
++ boolean canGetDoubleReward()
++ void setTreasureHunterActivate(boolean)
++ int getAddDashDistance()
++ void setAddDashDistance(int)
+}
+
+
+class objects.ThrowerBomb {
+- boolean isActivate
+- String throwerType
++ <<Create>> ThrowerBomb(BaseEntity,double,double,FaceDirection,double,double,String)
+- void canIgnoreTileTimer(String)
++ void activateBomb(BaseScene)
+- void setDefaultSetUp(BaseScene)
+- void setIceSetUp(BaseScene)
++ boolean isActivate()
++ void setActivate(boolean)
++ String getThrowerType()
++ void setThrowerType(String)
+}
+
+
+class entities.player.perks.DiscountMasterPerk {
+- {static} float chance
++ <<Create>> DiscountMasterPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
++ {static} float getChance()
+}
+
+
+abstract class entities.bases.BaseEntity {
++ {static} int ATTACK_VARIATION
+- int baseMaxHp
+- int addMaxHp
+- int currentHp
+- int baseAtk
+- int addAtk
+- int baseDef
+- int addDef
+- float baseMovementSpeed
+- int addMovementSpeed
+- int evadeRate
+- int damageIncrease
+- int damageDecrease
+- FaceDirection faceDirection
+- Animation animation
+- HitBox hitBox
+- float attackRange
+- String imgString
+- int standStillFrames
+- int walkFrames
+- int normalAttackFrames
+- int deadFrames
+- ArrayList<Integer> frameMakeDamageNormalAttack
+- boolean canTakeDamage
+- boolean isDash
+- float knockbackDistance
+- ArrayList<Integer> dashFrame
+- int dashFrameCount
+- int animationWidth
+- int animationHeight
+- int hitBoxWidth
+- int hitBoxHeight
+- int hitBoxXOffset
+- int hitBoxYOffset
+- ArrayList<SoundLoader> soundList
+- int damageReceived
++ {abstract}void setCommonStatus()
++ {abstract}void setUniqueStatus(double,double)
++ int getBaseMaxHp()
++ void setBaseMaxHp(int)
++ int getAddMaxHp()
++ void setAddMaxHp(int)
++ int getCurrentHp()
++ void setCurrentHp(int)
++ int getBaseAtk()
++ void setBaseAtk(int)
++ int getAddAtk()
++ void setAddAtk(int)
++ int getBaseDef()
++ void setBaseDef(int)
++ int getAddDef()
++ void setAddDef(int)
++ float getBaseMovementSpeed()
++ void setBaseMovementSpeed(float)
++ int getAddMovementSpeed()
++ void setAddMovementSpeed(int)
++ int getEvadeRate()
++ void setEvadeRate(int)
++ int getDamageIncrease()
++ void setDamageIncrease(int)
++ int getDamageDecrease()
++ void setDamageDecrease(int)
++ FaceDirection getFaceDirection()
++ void setFaceDirection(FaceDirection)
++ float getAttackRange()
++ void setAttackRange(float)
++ Animation getAnimation()
++ void setAnimation(Animation)
++ HitBox getHitBox()
++ void setHitBox(HitBox)
++ String getImgString()
++ void setImgString(String)
++ int getStandStillFrames()
++ void setStandStillFrames(int)
++ int getWalkFrames()
++ void setWalkFrames(int)
++ int getNormalAttackFrames()
++ void setNormalAttackFrames(int)
++ int getDeadFrames()
++ void setDeadFrames(int)
++ ArrayList<Integer> getFrameMakeDamageNormalAttack()
++ void setFrameMakeDamageNormalAttack(ArrayList<Integer>)
++ boolean canTakeDamage()
++ void setCanTakeDamage(boolean)
++ float getKnockbackDistance()
++ void setKnockbackDistance(float)
++ ArrayList<Integer> getDashFrame()
++ void setDashFrame(ArrayList<Integer>)
++ int getDashFrameCount()
++ void setDashFrameCount(int)
++ boolean isDash()
++ void setDash(boolean)
++ int getAnimationWidth()
++ void setAnimationWidth(int)
++ int getAnimationHeight()
++ void setAnimationHeight(int)
++ int getHitBoxWidth()
++ void setHitBoxWidth(int)
++ int getHitBoxHeight()
++ void setHitBoxHeight(int)
++ int getHitBoxXOffset()
++ void setHitBoxXOffset(int)
++ int getHitBoxYOffset()
++ void setHitBoxYOffset(int)
++ ArrayList<SoundLoader> getSoundList()
++ void setSoundList(ArrayList<SoundLoader>)
++ int getDamageReceived()
++ void setDamageReceived(int)
+}
+
+
+class scenes.BossScene {
+- {static} BossScene instance
++ <<Create>> BossScene(Stage,Player)
++ {static} BossScene getBossScene(Stage,Player)
++ {static} void resetBossScene()
+}
+
+
+class objects.Shroom {
++ <<Create>> Shroom(BaseEntity,double,double,FaceDirection)
+}
+
+class objects.Fire {
++ <<Create>> Fire(BaseEntity,double,double,FaceDirection,BaseScene)
+- void runRepeatAnimation(BaseScene)
+- void stopFire(BaseScene,BaseObject)
+- void createBossCooldownSkill3(BaseBoss)
+}
+
+class objects.VendingMachine {
+- boolean stop
++ <<Create>> VendingMachine(BaseEntity,double,double,FaceDirection)
+- void runAnimation()
++ boolean isStop()
++ void setStop(boolean)
+}
+
+
+class objects.HPDropLarge {
++ <<Create>> HPDropLarge(BaseEntity,double,double,FaceDirection)
+}
+
+abstract class entities.bases.BaseClass {
+- int hp
+- int atk
+- int def
+- float movementSpeed
+- int evadeRate
+- int damageIncrease
+- int damageDecrease
+- FaceDirection faceDirection
+- float attackRange
+- float attackSpeed
+- int critRate
+- int critDamage
+- String imgString
+- String uiString
+- String inventoryUIString
+- int standStillFrames
+- int walkFrames
+- int normalAttackFrames
+- int specialAttackFrames
+- float specialAttackCoolDown
+- int dashFrames
+- int deadFrames
+- int attackCombo
+- float timeCanSecondAttack
+- ArrayList<Integer> frameMakeDamageNormalAttack
+- ArrayList<Integer> frameMakeDamageSpecialAttack
+- float knockbackDistance
+- int maxDash
+- int animationWidth
+- int animationHeight
+- int hitBoxWidth
+- int hitBoxHeight
+- int hitBoxXOffset
+- int hitBoxYOffset
++ <<Create>> BaseClass()
++ void setCommonStatus()
++ {abstract}void setUniqueStatus()
++ int getHp()
++ void setHp(int)
++ int getAtk()
++ void setAtk(int)
++ int getDef()
++ void setDef(int)
++ float getMovementSpeed()
++ void setMovementSpeed(float)
++ int getEvadeRate()
++ void setEvadeRate(int)
++ int getDamageIncrease()
++ void setDamageIncrease(int)
++ int getDamageDecrease()
++ void setDamageDecrease(int)
++ FaceDirection getFaceDirection()
++ void setFaceDirection(FaceDirection)
++ float getAttackRange()
++ void setAttackRange(float)
++ float getAttackSpeed()
++ void setAttackSpeed(float)
++ int getCritRate()
++ void setCritRate(int)
++ int getCritDamage()
++ void setCritDamage(int)
++ String getImgString()
++ void setImgString(String)
++ int getStandStillFrames()
++ void setStandStillFrames(int)
++ int getWalkFrames()
++ void setWalkFrames(int)
++ int getNormalAttackFrames()
++ void setNormalAttackFrames(int)
++ int getSpecialAttackFrames()
++ void setSpecialAttackFrames(int)
++ int getDeadFrames()
++ void setDeadFrames(int)
++ int getAttackCombo()
++ void setAttackCombo(int)
++ float getTimeCanSecondAttack()
++ void setTimeCanSecondAttack(float)
++ ArrayList<Integer> getFrameMakeDamageNormalAttack()
++ ArrayList<Integer> getFrameMakeDamageSpecialAttack()
++ float getKnockbackDistance()
++ void setKnockbackDistance(float)
++ String getUiString()
++ void setUiString(String)
++ String getInventoryUIString()
++ void setInventoryUIString(String)
++ int getMaxDash()
++ void setMaxDash(int)
++ int getAnimationWidth()
++ void setAnimationWidth(int)
++ int getAnimationHeight()
++ void setAnimationHeight(int)
++ int getHitBoxWidth()
++ void setHitBoxWidth(int)
++ int getHitBoxHeight()
++ void setHitBoxHeight(int)
++ int getHitBoxXOffset()
++ void setHitBoxXOffset(int)
++ int getHitBoxYOffset()
++ void setHitBoxYOffset(int)
++ int getDashFrames()
++ void setDashFrames(int)
++ float getSpecialAttackCoolDown()
++ void setSpecialAttackCoolDown(float)
+}
+
+
+abstract class entities.bases.BaseMonster {
+- float normalAttackDelay
+- float addAttackDelay
+- float dropRate
+- int coinDrop
+- float visionRange
+- float walkTime
+- float time
+- float timeSinceLastAttack
+- float standTime
+- float turningTime
+- boolean isWalk
+- boolean canSee
+- FaceDirection dashDirection
+- boolean moreCoinDrop
+- int knockbackChance
+- boolean isSlowdownByThornPerk
+- {static} ArrayList<String> CLOSE_RANGE_MONSTERS
+- {static} ArrayList<States> ATTACK_STATES
++ <<Create>> BaseMonster()
++ void setBaseStatus()
++ void isAttacked(BaseEntity,BaseScene,int)
++ void hurt(BaseEntity,BaseScene)
++ void dead(BaseEntity,BaseScene)
++ void move(BaseScene)
+- void checkFall(BaseScene,double,double,double,double)
+- void jump(BaseScene,double,double,double,double,double)
+- void checkDirection(BaseScene,double,double,double,double,double,float)
+- void checkWalk(FaceDirection,BaseScene,double,double,double,double,double,float)
+- boolean canWalk(FaceDirection,double,double,double,double,double,int[][])
+- void walk(double,double,float,BaseScene)
++ boolean canAttack(BaseEntity)
+- void prepareToAttack(BaseScene,float)
++ void attack(Player,BaseScene,int)
+- void checkDash(BaseScene)
+- void dash(double,int,BaseScene,boolean,Player)
++ boolean isPlayerInVisionRange(BaseScene)
+- boolean checkAttack(BaseScene)
+- boolean canOtherAttack(FaceDirection,double,double,double,BaseScene)
+- boolean canThrowerGiGeeAttack(BaseScene,double,double)
+- void checkMoveToPlayer(Player,float,BaseScene)
+- void moveToPlayer(FaceDirection,double,double,double,double,double,float,BaseScene)
++ boolean isPlayerInAttackRange(Player)
++ float getDeltaTilesX(Player)
++ float getDeltaTilesY(Player)
++ float getNormalAttackDelay()
++ void setNormalAttackDelay(float)
++ float getAddAttackDelay()
++ void setAddAttackDelay(float)
++ float getDropRate()
++ void setDropRate(float)
++ int getCoinDrop()
++ void setCoinDrop(int)
++ float getVisionRange()
++ void setVisionRange(float)
++ float getWalkTime()
++ void setWalkTime(float)
++ float getNewRandomTime()
++ float getTime()
++ void setTime(float)
++ float getStandTime()
++ void setStandTime(float)
++ void setWalk(boolean)
++ void setCanSee(boolean)
++ void setCanAttack(boolean)
++ boolean isPlayerAtRight(Player)
++ boolean isPlayerAtLeft(Player)
++ void setTurningTime(float)
++ float getTimeSinceLastAttack()
++ void setTimeSinceLastAttack(float)
++ int getKnockbackChance()
++ void setKnockbackChance(int)
++ boolean isSpawn()
++ void setSpawn(boolean)
++ FaceDirection getDashDirection()
++ void setDashDirection(FaceDirection)
++ void setMoreCoinDrop(boolean)
++ boolean isSlowdownByThornPerk()
++ void setSlowdownByThornPerk(boolean)
+}
+
+
+class entities.player.perks.LuckyManPerk {
++ <<Create>> LuckyManPerk(Player,Tier)
++ boolean canUsePerk(Player)
++ void activatePerk(Player)
++ void deactivatePerk(Player)
++ void setStartValues(Tier)
+}
+
+class entities.player.classes.Dagger {
++ <<Create>> Dagger()
++ void setUniqueStatus()
+}
+
+class objects.Missile {
++ <<Create>> Missile(BaseEntity,double,double,FaceDirection)
+}
+
+interface interfaces.Perkable {
+~ boolean canUsePerk(Player)
+~ void activatePerk(Player)
+~ void deactivatePerk(Player)
+}
+
+class entities.monsters.ThrowerGiGee {
++ <<Create>> ThrowerGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+class objects.NormalArrow {
++ <<Create>> NormalArrow(BaseEntity,double,double,FaceDirection)
+}
+
+
+
+entities.bases.BaseMonster <|-- entities.bases.BaseGiGee
+javafx.scene.canvas.Canvas <|-- utils.CanvasDrawer
+objects.BaseObject <|-- objects.ChargeArrow
+interfaces.Obtainable <|.. objects.BaseReward
+objects.BaseObject <|-- objects.BaseReward
+javafx.scene.layout.GridPane <|-- scenes.StartScene
+threads.Thread <|-- threads.StatThread
+entities.bases.BasePerk <|-- entities.player.perks.IntrovertPerk
+entities.bases.BaseClass <|-- entities.player.classes.Bow
+threads.PlayerAnimationThread <|-- threads.MonsterAnimationThread
+entities.bases.BasePerk <|-- entities.player.perks.UndeadPerk
+objects.BaseReward <|-- objects.HPReward
+javafx.scene.layout.Pane <|-- scenes.BaseScene
+entities.bases.BaseMonster <|-- entities.bases.BaseBoss
+objects.BaseObject <|-- objects.ShockWave
+javafx.scene.image.ImageView <|-- animating.Animation
+entities.bases.BaseGiGee <|-- entities.monsters.PeasantGiGee
+objects.BaseObject <|-- objects.Bomb
+scenes.BaseScene <|-- scenes.MarketScene
+javafx.scene.image.ImageView <|-- animating.HitBox
+threads.Thread <|-- threads.PlayerAnimationThread
+entities.bases.BasePerk <|-- entities.player.perks.BerserkPerk
+entities.bases.BasePerk <|-- entities.player.perks.TreasureHunterPerk
+objects.BaseReward <|-- objects.CoinReward
+entities.bases.BaseClass <|-- entities.player.classes.BroadSword
+interfaces.Tradable <|.. objects.Merchant
+objects.BaseObject <|-- objects.Merchant
+entities.bases.BasePerk <|-- entities.player.perks.PerfectionistPerk
+entities.bases.BasePerk <|-- entities.player.perks.FortifyPerk
+entities.bases.BasePerk <|-- entities.player.perks.RapidFirePerk
+javafx.application.Application <|-- application.Main
+entities.bases.BasePerk <|-- entities.player.perks.JukeMasterPerk
+objects.BaseObject <|-- objects.Door
+entities.bases.BasePerk <|-- entities.player.perks.ThornPerk
+objects.BaseObject <|-- objects.StompEffect
+entities.bases.BaseClass <|-- entities.player.classes.Anonymous
+entities.bases.BasePerk <|-- entities.player.perks.ExtrovertPerk
+threads.Thread <|-- threads.BotLogicThread
+entities.bases.BasePerk <|-- entities.player.perks.ReinforcedPerk
+scenes.BaseScene <|-- scenes.FightScene
+interfaces.Obtainable <|.. entities.bases.BasePerk
+interfaces.Upgradable <|.. entities.bases.BasePerk
+interfaces.Tradable <|.. entities.bases.BasePerk
+interfaces.Perkable <|.. entities.bases.BasePerk
+entities.bases.BasePerk <|-- entities.player.perks.FatalAttackPerk
+javafx.scene.layout.GridPane <|-- scenes.DeathScene
+entities.bases.BasePerk <|-- entities.player.perks.PrecisionStrikePerk
+objects.BaseObject <|-- objects.BlackSmith
+objects.BaseObject <|-- objects.PerkChestReward
+threads.Thread <|-- threads.MovingThread
+javafx.scene.layout.GridPane <|-- scenes.OptionScene
+entities.bases.BaseGiGee <|-- entities.monsters.KleeGiGee
+objects.BaseObject <|-- objects.HPDropSmall
+entities.monsters.ThrowerGiGee <|-- entities.monsters.IceThrowerGiGee
+scenes.BaseScene <|-- scenes.ClassSelectionScene
+entities.bases.BasePerk <|-- entities.player.perks.VampirismPerk
+interfaces.Moveable <|.. objects.BaseObject
+objects.BaseObject <|-- objects.Symbol
+entities.bases.BaseBoss <|-- entities.monsters.BigBoy
+entities.bases.BaseGiGee <|-- entities.monsters.ArcherGiGee
+entities.bases.BaseEntity <|-- entities.player.Player
+objects.BaseObject <|-- objects.ThrowerBomb
+entities.bases.BasePerk <|-- entities.player.perks.DiscountMasterPerk
+interfaces.Moveable <|.. entities.bases.BaseEntity
+interfaces.Attackable <|.. entities.bases.BaseEntity
+scenes.BaseScene <|-- scenes.BossScene
+objects.BaseObject <|-- objects.Shroom
+objects.BaseObject <|-- objects.Fire
+objects.BaseObject <|-- objects.VendingMachine
+objects.BaseObject <|-- objects.HPDropLarge
+entities.bases.BaseEntity <|-- entities.bases.BaseMonster
+entities.bases.BasePerk <|-- entities.player.perks.LuckyManPerk
+entities.bases.BaseClass <|-- entities.player.classes.Dagger
+objects.BaseObject <|-- objects.Missile
+entities.bases.BaseGiGee <|-- entities.monsters.ThrowerGiGee
+objects.BaseObject <|-- objects.NormalArrow
+@enduml

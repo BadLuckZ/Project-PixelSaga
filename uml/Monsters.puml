@@ -1,0 +1,46 @@
+@startuml
+class entities.monsters.PeasantGiGee {
++ <<Create>> PeasantGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+class entities.monsters.BigBoy {
+- double jumpDistance
++ <<Create>> BigBoy(double,double)
++ void setUniqueStatus(double,double)
++ void activateNuclear(BaseScene)
++ double getJumpDistance()
++ void setJumpDistance(double)
+}
+
+
+class entities.monsters.ThrowerGiGee {
++ <<Create>> ThrowerGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+class entities.monsters.ArcherGiGee {
++ <<Create>> ArcherGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+class entities.monsters.KleeGiGee {
++ <<Create>> KleeGiGee(double,double)
++ void setUniqueStatus(double,double)
++ void activateBomb(BaseScene)
+}
+
+class entities.monsters.IceThrowerGiGee {
++ <<Create>> IceThrowerGiGee(double,double)
++ void setUniqueStatus(double,double)
+}
+
+
+
+entities.bases.BaseGiGee <|-- entities.monsters.PeasantGiGee
+entities.bases.BaseBoss <|-- entities.monsters.BigBoy
+entities.bases.BaseGiGee <|-- entities.monsters.ThrowerGiGee
+entities.bases.BaseGiGee <|-- entities.monsters.ArcherGiGee
+entities.bases.BaseGiGee <|-- entities.monsters.KleeGiGee
+entities.monsters.ThrowerGiGee <|-- entities.monsters.IceThrowerGiGee
+@enduml
