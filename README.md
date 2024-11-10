@@ -22,7 +22,7 @@
       ```
    2. Run the game using the following command:
       ```bash
-      java --module-path "openjfx-20.0.2_windows-x64_bin-sdk\javafx-sdk-20.0.2\lib" --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media -jar PixelSaga.jar
+      java --module-path "OpenJFX\javafx-sdk-20.0.2\lib" --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media -jar PixelSaga.jar
       ```
 
 5. ***Please Enjoy the Game!!!***
