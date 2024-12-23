@@ -9,7 +9,7 @@
 
 ## To Play This (For Windows Users)
 
-1. Download Java!!!
+1. Download Java
 
 2. Download [OpenJFX.zip](./OpenJFX.zip) and extract it.
 
@@ -25,4 +25,4 @@
       java --module-path "OpenJFX\javafx-sdk-20.0.2\lib" --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media -jar PixelSaga.jar
       ```
 
-5. ***Please Enjoy the Game!!!***
+5. ***Please Enjoy the Game (Hope you can play it...)!!!***
